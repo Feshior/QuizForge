@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QuizForge.Data;
-using QuizForge.Models;
+using QuizForge.Models.UserModels;
 
 var builder = WebApplication.CreateBuilder(args);
 

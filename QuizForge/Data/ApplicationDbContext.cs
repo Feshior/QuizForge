@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using QuizForge.Models;
+using QuizForge.Models.QuizModels;
+using QuizForge.Models.UserModels;
 
 namespace QuizForge.Data
 {
@@ -9,7 +10,15 @@ namespace QuizForge.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            
         }
+        //Quizes models
+        DbSet<Quiz> quizzes => Set<Quiz>();
+        DbSet<QuizQuestion> quizQuestions => Set<QuizQuestion>();
+        DbSet<QuizCorrectAnswer> quizCorrectAnswers => Set<QuizCorrectAnswer>();
+        //************
+
+        //UserModels
+        DbSet<UserPoint> userPoints => Set<UserPoint>();
+        DbSet<UserQuiz> userQuizzes => Set<UserQuiz>();
     }
 }
