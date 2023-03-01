@@ -178,9 +178,12 @@ namespace QuizForge.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("QuizPoints")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("quizzes");
+                    b.ToTable("Quizzes");
                 });
 
             modelBuilder.Entity("QuizForge.Models.QuizModels.QuizCorrectAnswer", b =>
@@ -202,7 +205,7 @@ namespace QuizForge.Data.Migrations
 
                     b.HasIndex("QuizQuestionId");
 
-                    b.ToTable("quizCorrectAnswers");
+                    b.ToTable("QuizCorrectAnswers");
                 });
 
             modelBuilder.Entity("QuizForge.Models.QuizModels.QuizQuestion", b =>
@@ -232,7 +235,7 @@ namespace QuizForge.Data.Migrations
 
                     b.HasIndex("QuizId");
 
-                    b.ToTable("quizQuestions");
+                    b.ToTable("QuizQuestions");
                 });
 
             modelBuilder.Entity("QuizForge.Models.UserModels.ApplicationUser", b =>
@@ -322,7 +325,7 @@ namespace QuizForge.Data.Migrations
 
                     b.HasIndex("UserQuizId");
 
-                    b.ToTable("userPoints");
+                    b.ToTable("UserPoints");
                 });
 
             modelBuilder.Entity("QuizForge.Models.UserModels.UserQuiz", b =>
@@ -346,7 +349,7 @@ namespace QuizForge.Data.Migrations
 
                     b.HasIndex("QuizId");
 
-                    b.ToTable("userQuizzes");
+                    b.ToTable("UserQuizzes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -442,7 +445,7 @@ namespace QuizForge.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("QuizForge.Models.QuizModels.Quiz", "Quiz")
-                        .WithMany("userQuizzes")
+                        .WithMany("UserQuizzes")
                         .HasForeignKey("QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -456,7 +459,7 @@ namespace QuizForge.Data.Migrations
                 {
                     b.Navigation("Questions");
 
-                    b.Navigation("userQuizzes");
+                    b.Navigation("UserQuizzes");
                 });
 
             modelBuilder.Entity("QuizForge.Models.QuizModels.QuizQuestion", b =>

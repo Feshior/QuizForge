@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Policy;
 
 namespace QuizForge.Models.QuizModels
@@ -16,8 +17,11 @@ namespace QuizForge.Models.QuizModels
         [Required]
         [MaxLength(20)]
         public string Question { get; set; } = string.Empty;
+        
         public List<QuizCorrectAnswer> CorrectAnswers { get; set; } = new List<QuizCorrectAnswer>();
         public double QuestionPoints { get; set; } = 0.0F;
+
+        [AllowNull]
         public string QuestionImage { get; set; } = string.Empty;
 
         

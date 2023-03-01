@@ -12,13 +12,13 @@ namespace QuizForge.Data
         {
         }
         //Quizes models
-        DbSet<Quiz> quizzes => Set<Quiz>();
-        DbSet<QuizQuestion> quizQuestions => Set<QuizQuestion>();
-        DbSet<QuizCorrectAnswer> quizCorrectAnswers => Set<QuizCorrectAnswer>();
+        public DbSet<Quiz> Quizzes => Set<Quiz>();
+        public DbSet<QuizQuestion> QuizQuestions => Set<QuizQuestion>();
+        public DbSet<QuizCorrectAnswer> QuizCorrectAnswers => Set<QuizCorrectAnswer>();
         //************
 
         //UserModels
-        DbSet<UserPoint> userPoints => Set<UserPoint>();
-        DbSet<UserQuiz> userQuizzes => Set<UserQuiz>();
+        public DbSet<UserPoint> UserPoints => Set<UserPoint>();
+        public DbSet<UserQuiz> UserQuizzes => Set<UserQuiz>();
     }
 }
