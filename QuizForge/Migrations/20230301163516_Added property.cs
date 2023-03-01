@@ -2,15 +2,15 @@
 
 #nullable disable
 
-namespace QuizForge.Data.Migrations
+namespace QuizForge.Migrations
 {
-    public partial class AddedpointtotheQuiz : Migration
+    public partial class Addedproperty : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "QuizPoint",
-                table: "Quizzes",
+                name: "QuizType",
+                table: "QuizQuestions",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
@@ -19,8 +19,8 @@ namespace QuizForge.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "QuizPoint",
-                table: "Quizzes");
+                name: "QuizType",
+                table: "QuizQuestions");
         }
     }
 }

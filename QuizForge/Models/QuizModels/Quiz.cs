@@ -25,7 +25,7 @@ namespace QuizForge.Models.QuizModels
 
         
 
-        public IEnumerable<QuizQuestion> Questions { get; set; } = new List<QuizQuestion>();
+        public IEnumerable<QuizQuestion> QuizQuestions { get; set; } = new List<QuizQuestion>();
         public List<UserQuiz> UserQuizzes { get; set; } = new List<UserQuiz>();
 
     }

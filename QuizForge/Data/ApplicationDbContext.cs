@@ -14,7 +14,7 @@ namespace QuizForge.Data
         //Quizes models
         public DbSet<Quiz> Quizzes => Set<Quiz>();
         public DbSet<QuizQuestion> QuizQuestions => Set<QuizQuestion>();
-        public DbSet<QuizCorrectAnswer> QuizCorrectAnswers => Set<QuizCorrectAnswer>();
+        public DbSet<QuestionAnswers> QuestionAnswers => Set<QuestionAnswers>();
         //************
 
         //UserModels

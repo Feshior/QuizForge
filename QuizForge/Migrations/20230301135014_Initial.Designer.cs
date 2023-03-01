@@ -9,11 +9,11 @@ using QuizForge.Data;
 
 #nullable disable
 
-namespace QuizForge.Data.Migrations
+namespace QuizForge.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230228232539_Added Quizes and Questions")]
-    partial class AddedQuizesandQuestions
+    [Migration("20230301135014_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -180,12 +180,15 @@ namespace QuizForge.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("QuizPoints")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("quizzes");
+                    b.ToTable("Quizzes");
                 });
 
-            modelBuilder.Entity("QuizForge.Models.QuizModels.QuizCorrectAnswer", b =>
+            modelBuilder.Entity("QuizForge.Models.QuizModels.QuizAnswers", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -197,6 +200,9 @@ namespace QuizForge.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
                     b.Property<int>("QuizQuestionId")
                         .HasColumnType("int");
 
@@ -204,7 +210,7 @@ namespace QuizForge.Data.Migrations
 
                     b.HasIndex("QuizQuestionId");
 
-                    b.ToTable("quizCorrectAnswers");
+                    b.ToTable("QuizAnswers");
                 });
 
             modelBuilder.Entity("QuizForge.Models.QuizModels.QuizQuestion", b =>
@@ -217,11 +223,10 @@ namespace QuizForge.Data.Migrations
 
                     b.Property<string>("Question")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("QuestionImage")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("QuestionPoints")
@@ -234,7 +239,7 @@ namespace QuizForge.Data.Migrations
 
                     b.HasIndex("QuizId");
 
-                    b.ToTable("quizQuestions");
+                    b.ToTable("QuizQuestions");
                 });
 
             modelBuilder.Entity("QuizForge.Models.UserModels.ApplicationUser", b =>
@@ -324,7 +329,7 @@ namespace QuizForge.Data.Migrations
 
                     b.HasIndex("UserQuizId");
 
-                    b.ToTable("userPoints");
+                    b.ToTable("UserPoints");
                 });
 
             modelBuilder.Entity("QuizForge.Models.UserModels.UserQuiz", b =>
@@ -348,7 +353,7 @@ namespace QuizForge.Data.Migrations
 
                     b.HasIndex("QuizId");
 
-                    b.ToTable("userQuizzes");
+                    b.ToTable("UserQuizzes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -402,7 +407,7 @@ namespace QuizForge.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QuizForge.Models.QuizModels.QuizCorrectAnswer", b =>
+            modelBuilder.Entity("QuizForge.Models.QuizModels.QuizAnswers", b =>
                 {
                     b.HasOne("QuizForge.Models.QuizModels.QuizQuestion", "QuizQuestion")
                         .WithMany("CorrectAnswers")
@@ -427,7 +432,7 @@ namespace QuizForge.Data.Migrations
             modelBuilder.Entity("QuizForge.Models.UserModels.UserPoint", b =>
                 {
                     b.HasOne("QuizForge.Models.UserModels.UserQuiz", "UserQuiz")
-                        .WithMany("UserPoint")
+                        .WithMany("UserPoints")
                         .HasForeignKey("UserQuizId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -444,7 +449,7 @@ namespace QuizForge.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("QuizForge.Models.QuizModels.Quiz", "Quiz")
-                        .WithMany("userQuizzes")
+                        .WithMany("UserQuizzes")
                         .HasForeignKey("QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -458,7 +463,7 @@ namespace QuizForge.Data.Migrations
                 {
                     b.Navigation("Questions");
 
-                    b.Navigation("userQuizzes");
+                    b.Navigation("UserQuizzes");
                 });
 
             modelBuilder.Entity("QuizForge.Models.QuizModels.QuizQuestion", b =>
@@ -468,7 +473,7 @@ namespace QuizForge.Data.Migrations
 
             modelBuilder.Entity("QuizForge.Models.UserModels.UserQuiz", b =>
                 {
-                    b.Navigation("UserPoint");
+                    b.Navigation("UserPoints");
                 });
 #pragma warning restore 612, 618
         }

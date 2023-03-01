@@ -9,7 +9,7 @@ namespace QuizForge.Models.UserModels
         public int UserAttempts = 0;
         
         //Element on 0 index means that it related to 1 attempt
-        public List<UserPoint> UserPoint { get; set; } = new List<UserPoint>();
+        public List<UserPoint> UserPoints { get; set; } = new List<UserPoint>();
 
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; } = string.Empty;

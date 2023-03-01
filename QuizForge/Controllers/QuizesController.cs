@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuizForge.Data;
 using QuizForge.Models.UserModels;
+using QuizForge.Models.QuizModels;
 using QuizForge.ViewModels;
 
 namespace QuizForge.Controllers
@@ -37,6 +38,45 @@ namespace QuizForge.Controllers
                 });
             }
            
+        }
+
+        [HttpGet]
+        public IActionResult PassTest(int quizId = -1)
+        {
+            Console.WriteLine(quizId);
+            if (quizId != -1)
+            {
+                Quiz? quizToPass = dbContext.Quizzes.Where(q => q.Id == quizId)
+                    .Include(q => q.QuizQuestions).FirstOrDefault();
+                
+                if (quizToPass == null)
+                    return View(new QuizPassViewModel());
+
+                    int attempts = dbContext.UserQuizzes.Where(uq => uq.Id == quizToPass.Id).FirstOrDefault()?.UserPoints.Count() ?? 0;
+
+                    if(attempts >= quizToPass.MaxAttempts)
+                    {
+                    return View(new QuizPassViewModel()
+                    {
+                        Quiz = quizToPass,
+                        CurrentAttempts = attempts,
+                        IsAvaible = false
+                    });
+                }
+                
+                List<QuizQuestion> questionsToPass = quizToPass.QuizQuestions.ToList();
+                List<QuestionAnswers> questionsAnswers = dbContext.QuestionAnswers.Where(q=>q.QuizQuestion.QuizId == quizId).ToList();
+
+                return View(new QuizPassViewModel()
+                {
+                    Quiz = quizToPass,
+                    CurrentAttempts = attempts,
+                    IsAvaible = true,
+                    QuizQuestions = questionsToPass,
+                    QuizQuestionsAnswers = questionsAnswers
+                });
+            }
+            return View(new QuizPassViewModel());
         }
     }
 }

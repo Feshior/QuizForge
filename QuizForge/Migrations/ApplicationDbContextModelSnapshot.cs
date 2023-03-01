@@ -3,19 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuizForge.Data;
 
 #nullable disable
 
-namespace QuizForge.Data.Migrations
+namespace QuizForge.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230228232706_small changes")]
-    partial class smallchanges
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,6 +159,31 @@ namespace QuizForge.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("QuizForge.Models.QuizModels.QuestionAnswers", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("QuizQuestionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuizQuestionId");
+
+                    b.ToTable("QuestionAnswers");
+                });
+
             modelBuilder.Entity("QuizForge.Models.QuizModels.Quiz", b =>
                 {
                     b.Property<int>("Id")
@@ -180,31 +203,12 @@ namespace QuizForge.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("QuizPoints")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Quizzes");
-                });
-
-            modelBuilder.Entity("QuizForge.Models.QuizModels.QuizCorrectAnswer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Answer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("QuizQuestionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuizQuestionId");
-
-                    b.ToTable("QuizCorrectAnswers");
                 });
 
             modelBuilder.Entity("QuizForge.Models.QuizModels.QuizQuestion", b =>
@@ -217,17 +221,19 @@ namespace QuizForge.Data.Migrations
 
                     b.Property<string>("Question")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("QuestionImage")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("QuestionPoints")
                         .HasColumnType("float");
 
                     b.Property<int>("QuizId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuizType")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -402,10 +408,10 @@ namespace QuizForge.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QuizForge.Models.QuizModels.QuizCorrectAnswer", b =>
+            modelBuilder.Entity("QuizForge.Models.QuizModels.QuestionAnswers", b =>
                 {
                     b.HasOne("QuizForge.Models.QuizModels.QuizQuestion", "QuizQuestion")
-                        .WithMany("CorrectAnswers")
+                        .WithMany("QuizAnswers")
                         .HasForeignKey("QuizQuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -416,7 +422,7 @@ namespace QuizForge.Data.Migrations
             modelBuilder.Entity("QuizForge.Models.QuizModels.QuizQuestion", b =>
                 {
                     b.HasOne("QuizForge.Models.QuizModels.Quiz", "Quiz")
-                        .WithMany("Questions")
+                        .WithMany("QuizQuestions")
                         .HasForeignKey("QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -427,7 +433,7 @@ namespace QuizForge.Data.Migrations
             modelBuilder.Entity("QuizForge.Models.UserModels.UserPoint", b =>
                 {
                     b.HasOne("QuizForge.Models.UserModels.UserQuiz", "UserQuiz")
-                        .WithMany("UserPoint")
+                        .WithMany("UserPoints")
                         .HasForeignKey("UserQuizId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -444,7 +450,7 @@ namespace QuizForge.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("QuizForge.Models.QuizModels.Quiz", "Quiz")
-                        .WithMany("userQuizzes")
+                        .WithMany("UserQuizzes")
                         .HasForeignKey("QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -456,19 +462,19 @@ namespace QuizForge.Data.Migrations
 
             modelBuilder.Entity("QuizForge.Models.QuizModels.Quiz", b =>
                 {
-                    b.Navigation("Questions");
+                    b.Navigation("QuizQuestions");
 
-                    b.Navigation("userQuizzes");
+                    b.Navigation("UserQuizzes");
                 });
 
             modelBuilder.Entity("QuizForge.Models.QuizModels.QuizQuestion", b =>
                 {
-                    b.Navigation("CorrectAnswers");
+                    b.Navigation("QuizAnswers");
                 });
 
             modelBuilder.Entity("QuizForge.Models.UserModels.UserQuiz", b =>
                 {
-                    b.Navigation("UserPoint");
+                    b.Navigation("UserPoints");
                 });
 #pragma warning restore 612, 618
         }
