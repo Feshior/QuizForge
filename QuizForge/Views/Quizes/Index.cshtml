@@ -68,14 +68,17 @@
                     @{
                         if (SignInManager.IsSignedIn(User))
                         {
-                                                    <h6 class="card-text">Your score:
-                                            @(Model.UserPoints.Where(u => u.UserQuizId == i).ToList().FirstOrDefault()?.Points ?? 0) / @{
-                                                            @Model.Quizzes[i].QuizPoints;
-                                            }
-                                        </h6>
+                          <h6 class="card-text">Your score:
+                          @(Model.UserPoints.Where(u => u.UserQuizId == i).ToList().FirstOrDefault()?.Points ?? 0) / @{
+                            @Model.Quizzes[i].QuizPoints;
+                          }
+                          </h6>
                         }
                     }
-                    <a href="#" class="btn btn-primary stretched-link">Details</a>
+                    <form method="get" asp-controller="Quizes" asp-action="PassTest">
+                        <input value="@Model.Quizzes[i].Id" id="quizId" type="hidden" name="quizId">
+                    <button  class="btn btn-primary" type="submit">Start quiz</button>
+                    </form>
                 </div>
 
                 <img src="@Model.Quizzes[i].QuizImage" class="my-img-card" alt="Card image cap">

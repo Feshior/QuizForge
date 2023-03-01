@@ -36,7 +36,7 @@
 @if(Model.Quiz.QuizName == string.Empty){
     <div class="align-content-center text-center m-5">
     <h2 class="text-danger">Quiz was not found!</h2>
-        <a class="btn btn-primary" href="#" role="button">Back to the Quizes list</a>
+        <a class="btn btn-primary" asp-controller="Quizes" asp-action="Index" role="button">Back to the Quizes list</a>
     </div>
 }else if(!Model.IsAvaible){
     <div class="align-content-center text-center m-5">
