@@ -1,7 +1,56 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+    ViewData["Title"] = "Welcome Page";
+    ApplicationUser currentUser = await UserManager.GetUserAsync(User);
 }
 
-<div class="text-center">
-    <h1>Index content</h1>
+
+@section head{
+    <style>
+        body{
+            
+        }
+        .bg-image{
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            background-image: url("img/default/background_image.jpg");
+            height: 100%;
+            width: 100%;
+            position: fixed;
+        }
+
+        .bg-content{
+            background-color: none;
+            width: 80%;
+            height: 30%;
+            margin: 0;
+            position: relative;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            
+            border-radius:10%
+        }
+        .welcome-div{
+        }
+    </style>
+}
+
+<div class="bg-image">
+    <div class="bg-content">
+        <div class="welcome-div">
+           <h1 class="text-light">Welcome to the QuizForge</h1>
+            @if (SignInManager.IsSignedIn(User)){
+                <h3 class="text-white fst-italic">Glad to see you, @currentUser.VisibleName</h3>
+                <a class="btn btn-outline-light" asp-controller="Quizes" asp-action="Index">Quizes list</a>
+            }else{
+                <h3 class="text-info fst-italic">Please register to proceed</h3>
+                <a class="btn btn-outline-light" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            }
+        </div>
+    </div>
 </div>

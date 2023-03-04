@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using QuizForge.Models.UserModels
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -20,7 +21,7 @@
 }
 else
 {
-    <li class="nav-item">
+        <li class="nav-item">
         <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Register">Register</a>
     </li>
     <li class="nav-item ms-3 me-3">
