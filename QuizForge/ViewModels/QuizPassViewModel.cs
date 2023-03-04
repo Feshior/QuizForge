@@ -10,5 +10,7 @@ namespace QuizForge.ViewModels
         public List<QuestionAnswers> QuizQuestionsAnswers { get; set; } = new List<QuestionAnswers>();
         public int CurrentAttempts { get; set; }
         public bool IsAvaible { get; set; }
+
+        public Dictionary<int, string> Answers { get; set; } = new Dictionary<int, string>();
     }
 }

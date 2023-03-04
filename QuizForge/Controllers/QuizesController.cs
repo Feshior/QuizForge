@@ -5,6 +5,8 @@ using QuizForge.Data;
 using QuizForge.Models.UserModels;
 using QuizForge.Models.QuizModels;
 using QuizForge.ViewModels;
+using QuizForge.Models;
+using System.Configuration;
 
 namespace QuizForge.Controllers
 {
@@ -43,7 +45,6 @@ namespace QuizForge.Controllers
         [HttpGet]
         public IActionResult PassTest(int quizId = -1)
         {
-            Console.WriteLine(quizId);
             if (quizId != -1)
             {
                 Quiz? quizToPass = dbContext.Quizzes.Where(q => q.Id == quizId)
@@ -77,6 +78,118 @@ namespace QuizForge.Controllers
                 });
             }
             return View(new QuizPassViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult PassPost()
+        {
+            /* Short description about how it works
+             * We are reciving post request from server and parcing it in results list
+             * 
+             * elementData contains data in this way:
+             *  {QuestionId}, {answ1}, {answ2}, {answ3}, {...}, {...}...
+             *  
+             *  So, text inputs and select inputs will contain only 2 elements
+             *  and multiple choice can contain an endless number of elements
+             *  
+             *  Because of each section of data is divided and contains QuestionId we can easily
+             *  align it with data base elements
+             */
+
+            
+
+            int currentI = 0;
+            //int currentSw = -1;
+            List<List<string>> results = new List<List<string>>();
+            var form = HttpContext.Request.Form;
+
+            try
+            {
+
+                int quizId = int.Parse(form["quiz-id"]);
+
+                while (true)
+                {
+
+                    //If there are no more elements breaking loop
+                    if (!form.ContainsKey($"r-{currentI}--1"))
+                        break;
+
+                    string[] keys = form.Keys.Where(k => k.StartsWith($"r-{currentI}-")).ToArray();
+
+                    List<string> elementData = new List<string>();
+                    //elementData.Add(form[$"r-{currentI}--1"]);
+
+                    foreach(string key in keys)
+                    {
+                        elementData.Add(form[key]);
+                    }
+
+                    results.Add(elementData);
+                    currentI++;
+                }
+
+                foreach(var item in results)
+                {
+                    Console.WriteLine("ITEMS: ");
+                    foreach(var res in item)
+                    {
+                        Console.Write($" {res} ");
+                    }
+                }
+
+                return CalculateResults(quizId, results);
+
+            }
+            catch (Exception)
+            {
+                return View("Error", new ErrorViewModel()
+                {
+                    RequestId = "400"
+                });
+            }
+        }
+
+        //Helper method for PassPost
+        [NonAction]
+        private IActionResult CalculateResults(int quizId, List<List<string>> answers)
+        {
+            double userPoints = 0;
+           //Checking all answers
+           foreach(List<string> answer in answers)
+           {
+                int questionId = int.Parse(answer[0]);
+                QuizQuestion q =  dbContext.QuizQuestions.Where(q => q.Id == questionId).Include(q => q.QuizAnswers).FirstOrDefault() ?? new QuizQuestion();
+
+                //Calculation point that will be given for one correct answer
+                double pointForOneAnswer;
+                int questionCount = (q.QuizAnswers.Where(q => q.IsCorrect == true).Count());
+                if (questionCount == 0)
+                    pointForOneAnswer = 0;
+                else
+                    pointForOneAnswer = q.QuestionPoints / questionCount;
+                
+                //Calculating points
+                for (int i = 0; i< answer.Count; i++)
+                {
+                    Console.WriteLine($"\n\n\nUSER - ANSW{answer[i]}");
+                    if (q.QuizAnswers.Where(q=>q.IsCorrect == true && q.Answer == answer[i]).Count() > 0)
+                    {
+                        userPoints += pointForOneAnswer;
+                    }
+                }
+
+           }
+            return View("QuizResult", new QuizResultViewModel()
+            {
+                Points = userPoints
+            });
+        }
+
+
+        public IActionResult Error()
+        {
+            return View();
         }
     }
 }

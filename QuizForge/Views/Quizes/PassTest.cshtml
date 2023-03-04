@@ -50,9 +50,14 @@
     <div class="text-center">
     <h1>Welcome to the <br> @Model.Quiz.QuizName</h1>
     </div>
-    <div class="row justify-content-center">
-    @for(int i = 0; i < Model.QuizQuestions.Count; i++){
+
+    <form class="row justify-content-center" method="post" asp-controller="Quizes" asp-action="PassPost">
+    <input type="hidden" value="@Model.Quiz.Id" name="quiz-id">
+    @for(int i = 0; i < Model?.QuizQuestions.Count; i++){
             <div class="card mb-3 col-7">
+                @*Indicates Quiz id*@
+                <input type="hidden" name="r-@i--1" value="@Model.QuizQuestions[i].Id" />
+                
                 <h4 class="my-card-header text-center">
                 Question - @i
             </h4>
@@ -66,35 +71,49 @@
 
             <div class="card-body">
                 <h5 class="card-title">@Model.QuizQuestions[i].Question</h5>
+                @{
+                    int sw = 0;
+                    int tempVal = 0;
+                }
                 @if (Model.QuizQuestions[i].QuizType == QuizType.SelectAnswer)
                 {
-                    @foreach (var item in Model.QuizQuestionsAnswers.Where(q => q.QuizQuestionId == Model.QuizQuestions[i].Id).ToList())
+                        tempVal = 0;
+                        @foreach (var item in Model.QuizQuestionsAnswers.Where(q => q.QuizQuestionId == Model.QuizQuestions[i].Id).ToList())
                     {
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadio" id="r-@{@i}-@{@item.Id}">
-                                <label class="form-check-label" for="r-@{@i}-@{@item.Id}">
-                                    @item.Answer
-                                </label>
-                            </div>
-                    }
-                }
-                else if (Model.QuizQuestions[i].QuizType == QuizType.MultipleAnswers){
+                                <input class="form-check-input" type="radio" name="r-@i-0" id="r-@i-@tempVal" value="@item.Answer">
 
+                                <label class="form-check-label" for="r-@i-@tempVal">
+                                @item.Answer
+                                </label>
+                            </div>
+                            tempVal++;
+                    }
+                        sw++;
+                }
+                //For multiple answers
+                else if (Model.QuizQuestions[i].QuizType == QuizType.MultipleAnswers){
+                        tempVal = 0;
+                        
                     @foreach (var item in Model.QuizQuestionsAnswers.Where(q => q.QuizQuestionId == Model.QuizQuestions[i].Id).ToList())
                     {
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="r-@{@i}-@{@item.Id}">
-                                <label class="form-check-label" for="r-@{@i}-@{@item.Id}">
-                                    @item.Answer
+                                <input class="form-check-input" type="checkbox" name="r-@i-@tempVal" id="r-@i-@tempVal" value="@item.Answer">
+                                <label class="form-check-label" for="r-@i-@tempVal">
+                                @item.Answer
                                 </label>
                             </div>
+                            tempVal++;
+                        }
                     }
-                }
-                
-                else{
-                    
+
+                    else{
+
                         <div class="input-group">
-                            <textarea class="form-control" aria-label="With textarea"></textarea>
+                            @{
+                                int id = @Model?.QuizQuestionsAnswers?.Where(q => q.QuizQuestionId == Model.QuizQuestions[i].Id)?.FirstOrDefault()?.Id ?? 0;
+                            }
+                            <textarea class="form-control" aria-label="Textarea" name="r-@i-0" id="r-@i-0"></textarea>
                         </div>
                 }
             </div>
@@ -106,8 +125,20 @@
             @answ.Answer
         }*@
     }
-    </div>
+
+        <button  type="submit" class="btn btn-dark col-6">Submit</button>
+    </form>
+    
     <partial name="_ScoreboardPartial" />
 }
 
+@section scripts{
+    <script>
+    $(".form").find('input').each(function(index,element){
+        alert($(element).val());
+    });
+    </script>
+
+
+}
 
