@@ -5,8 +5,16 @@ using QuizForge.Models.UserModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+string connectionString;
+if (builder.Environment.IsDevelopment())
+{
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+}else
+    connectionString = builder.Configuration["ConnectionStrings:DeploymentConnection"];
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
