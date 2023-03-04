@@ -1,8 +1,11 @@
 ﻿@model QuizListViewModel
 @inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Quizes list";
-    
+    string userId = (User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+
 }
 
 
@@ -42,7 +45,9 @@
         }*/
     </style>
 }
+
 <h1 class="text-center m-4">Quizes list</h1>
+
 <hr />
     <div class="row justify-content-center ms-2 me-2">
         @for(int i = 0;i < Model.Quizzes.Count; i++)
@@ -53,12 +58,21 @@
         <div class="card-body d-flex">
                 <div class="m-auto">
                     <h6 class="card-text">Questions: @Model.Quizzes[i].QuizQuestions.Count()</h6>
+                    
+                    @{
+                        List<UserPoint> points = Model.UserPoints.Where(u =>
+                            u.UserQuizId == (Model.Quizzes[i])
+                            .UserQuizzes.FirstOrDefault(u => u.ApplicationUserId == userId)?.Id)
+                            .ToList();
+                    }
+
+                    
                     @*Attempts checker*@
                     <h6 class="card-text">
                         Attempts:
                     @if (SignInManager.IsSignedIn(User))
                     {
-                    @Model.UserPoints.Where(u => u.UserQuizId == i).Count()
+                    @points.Count()
                     }else{
                         @:0
                         } / @Model.Quizzes[i].MaxAttempts
@@ -66,13 +80,12 @@
                      
                     @*Points section*@
                     @{
+                        
                         if (SignInManager.IsSignedIn(User))
                         {
-                          <h6 class="card-text">Your score:
-                          @(Model.UserPoints.Where(u => u.UserQuizId == i).ToList().FirstOrDefault()?.Points ?? 0) / @{
-                            @Model.Quizzes[i].QuizPoints;
-                          }
-                          </h6>
+                                      <h6 class="card-text">Your score:
+                                @(points.LastOrDefault()?.Points ?? 0)
+                                      </h6>
                         }
                     }
                     <form method="get" asp-controller="Quizes" asp-action="PassTest">

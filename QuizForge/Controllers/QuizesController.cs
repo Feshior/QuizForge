@@ -25,10 +25,14 @@ namespace QuizForge.Controllers
            
             if (SignInManager.IsSignedIn(User))
             {
+                
                 string userEmail = User?.Identity?.Name ?? "";
+                //foreach(var item in dbContext.UserPoints.Where(p => (p.UserQuiz.ApplicationUser.Email == userEmail)).ToList()){
+                //    Console.WriteLine($"{item.Points} points");
+                //}
                 return View(new QuizListViewModel()
                 {
-                    Quizzes = await dbContext.Quizzes.ToListAsync(),
+                    Quizzes = await dbContext.Quizzes.Include(q=>q.UserQuizzes).Include(q=>q.QuizQuestions).ToListAsync(),
                     UserPoints = await dbContext.UserPoints.Where(p => (p.UserQuiz.ApplicationUser.Email == userEmail)).ToListAsync()
             });
             }
@@ -53,10 +57,13 @@ namespace QuizForge.Controllers
                 if (quizToPass == null)
                     return View(new QuizPassViewModel());
 
-                    int attempts = dbContext.UserQuizzes.Where(uq => uq.Id == quizToPass.Id).FirstOrDefault()?.UserPoints.Count() ?? 0;
+                int attempts = dbContext.UserPoints.Where(up => up.UserQuiz == dbContext
+                    .UserQuizzes.FirstOrDefault(uq => uq.Quiz == quizToPass))
+                    .Count();
 
-                    if(attempts >= quizToPass.MaxAttempts)
-                    {
+
+               if(attempts >= quizToPass.MaxAttempts)
+               {
                     return View(new QuizPassViewModel()
                     {
                         Quiz = quizToPass,
@@ -154,12 +161,14 @@ namespace QuizForge.Controllers
         [NonAction]
         private IActionResult CalculateResults(int quizId, List<List<string>> answers)
         {
+            Quiz? passedQuiz = dbContext.Quizzes.Where(q => q.Id == quizId).FirstOrDefault();
+            if (passedQuiz == null) throw new Exception("Quiz was not found!");
             double userPoints = 0;
-           //Checking all answers
-           foreach(List<string> answer in answers)
-           {
+            //Checking all answers
+            foreach (List<string> answer in answers)
+            {
                 int questionId = int.Parse(answer[0]);
-                QuizQuestion q =  dbContext.QuizQuestions.Where(q => q.Id == questionId).Include(q => q.QuizAnswers).FirstOrDefault() ?? new QuizQuestion();
+                QuizQuestion q = dbContext.QuizQuestions.Where(q => q.Id == questionId).Include(q => q.QuizAnswers).FirstOrDefault() ?? new QuizQuestion();
 
                 //Calculation point that will be given for one correct answer
                 double pointForOneAnswer;
@@ -168,24 +177,60 @@ namespace QuizForge.Controllers
                     pointForOneAnswer = 0;
                 else
                     pointForOneAnswer = q.QuestionPoints / questionCount;
-                
+
                 //Calculating points
-                for (int i = 0; i< answer.Count; i++)
+                for (int i = 0; i < answer.Count; i++)
                 {
-                    Console.WriteLine($"\n\n\nUSER - ANSW{answer[i]}");
-                    if (q.QuizAnswers.Where(q=>q.IsCorrect == true && q.Answer == answer[i]).Count() > 0)
+                    if (q.QuizAnswers.Where(q => q.IsCorrect == true && q.Answer == answer[i]).Count() > 0)
                     {
                         userPoints += pointForOneAnswer;
                     }
                 }
 
-           }
+               
+            }
+            //Adding results
+            if (SignInManager.IsSignedIn(User))
+                {
+                string userEmail = User?.Identity?.Name ?? "";
+                ApplicationUser? appUser = dbContext.Users.Where(u => u.Email == userEmail).FirstOrDefault();
+
+                if (appUser == null)
+                    throw new Exception("User was not found!");
+
+                UserQuiz? uq = dbContext.UserQuizzes.Where(u => u.ApplicationUser == appUser && u.QuizId == quizId).FirstOrDefault();
+                if (uq == null)
+                {
+                   uq = new UserQuiz()
+                   {
+                      ApplicationUser = appUser,
+                      Quiz = passedQuiz
+                   };
+                    dbContext.Add(uq);
+                    dbContext.SaveChanges();
+                }
+                
+
+                UserPoint userP = new UserPoint()
+                {
+                    Points = userPoints,
+                     UserQuiz = uq
+                };
+
+                dbContext.UserPoints.Add(userP);
+                dbContext.SaveChanges();
+            }
+            else
+                throw new Exception("User unauthorized!");  
+           
+
+
             return View("QuizResult", new QuizResultViewModel()
             {
+                Quiz = passedQuiz,
                 Points = userPoints
             });
         }
-
 
         public IActionResult Error()
         {

@@ -1,5 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject SignInManager<ApplicationUser> SignInManager
 
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -20,8 +21,9 @@
         }
         body{
             background-color: whitesmoke;
-            padding-top: 70px;
+            padding-top: 3%;
         }
+      
    </style>
 
    @await RenderSectionAsync("head",false)
@@ -45,11 +47,13 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Quizes" asp-action="Index">Quizes</a>
-                    </li>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Quizes" asp-action="Index">Quizes</a>
+                        </li>
+                    }
 
-                    
                 </ul>
                     <div class="form-inline my-2 my-lg-0 ms-auto">
                         <partial name="_LoginPartial" />

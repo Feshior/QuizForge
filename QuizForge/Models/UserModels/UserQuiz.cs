@@ -6,7 +6,7 @@ namespace QuizForge.Models.UserModels
     public class UserQuiz
     {
         public int Id { get; set; }
-        public int UserAttempts = 0;
+        //public int UserAttempts = 0;
         
         //Element on 0 index means that it related to 1 attempt
         public List<UserPoint> UserPoints { get; set; } = new List<UserPoint>();

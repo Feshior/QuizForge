@@ -4,12 +4,17 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="text-center m-3">@ViewData["Title"]</h1>
+<style>
+    .form-floating{
+        margin: 5px;
+    }
+    </style>
 
-<div class="row">
+<div class="row justify-content-center">
     <div class="col-md-6">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
+            <h2>Create a new account</h2>
             <hr />
 
             <div class="form-floating">
@@ -37,32 +42,8 @@
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
     </div>
-   <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3></h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
-    </div>
 </div>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
