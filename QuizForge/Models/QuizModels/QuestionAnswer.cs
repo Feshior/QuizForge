@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuizForge.Models.QuizModels
 {
-    public class QuestionAnswers
+    public class QuestionAnswer
     {
         public int Id { get; set; }
         [Required]

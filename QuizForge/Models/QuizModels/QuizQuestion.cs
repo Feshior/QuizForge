@@ -18,7 +18,7 @@ namespace QuizForge.Models.QuizModels
         [MaxLength(100)]
         public string Question { get; set; } = string.Empty;
         
-        public List<QuestionAnswers> QuizAnswers { get; set; } = new List<QuestionAnswers>();
+        public List<QuestionAnswer> QuizAnswers { get; set; } = new List<QuestionAnswer>();
         public double QuestionPoints { get; set; } = 0.0F;
 
         [AllowNull]

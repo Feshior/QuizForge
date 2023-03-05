@@ -73,7 +73,7 @@ namespace QuizForge.Controllers
                 }
                 
                 List<QuizQuestion> questionsToPass = quizToPass.QuizQuestions.ToList();
-                List<QuestionAnswers> questionsAnswers = dbContext.QuestionAnswers.Where(q=>q.QuizQuestion.QuizId == quizId).ToList();
+                List<QuestionAnswer> questionsAnswers = dbContext.QuestionAnswers.Where(q=>q.QuizQuestion.QuizId == quizId).ToList();
 
                 return View(new QuizPassViewModel()
                 {

@@ -11,6 +11,11 @@
 
 @section head{
     <style>
+        body{
+            background-image: url("/img/default/space_background.jpg");
+            background-attachment: fixed;
+            background-size: cover;
+        }
         .my-img-card{
             width: 9rem;
             height: 8.5rem;
@@ -46,9 +51,9 @@
     </style>
 }
 
-<h1 class="text-center m-4">Quizes list</h1>
+<h1 class="text-center m-4 text-white">Quizes list</h1>
 
-<hr />
+
     <div class="row justify-content-center ms-2 me-2">
         @for(int i = 0;i < Model.Quizzes.Count; i++)
     {
@@ -83,9 +88,9 @@
                         
                         if (SignInManager.IsSignedIn(User))
                         {
-                                      <h6 class="card-text">Your score:
-                                @(points.LastOrDefault()?.Points ?? 0)
-                                      </h6>
+                                                      <h6 class="card-text">Your score:
+                                                @(points.LastOrDefault()?.Points ?? 0)
+                                                      </h6>
                         }
                     }
                     <form method="get" asp-controller="Quizes" asp-action="PassTest">

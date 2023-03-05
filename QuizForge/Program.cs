@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QuizForge.Data;
+using QuizForge.Models;
 using QuizForge.Models.UserModels;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,5 +50,9 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+var context = app.Services.CreateScope().ServiceProvider
+    .GetRequiredService<ApplicationDbContext>();
+SeedData.SeedDatabase(context);
 
 app.Run();
