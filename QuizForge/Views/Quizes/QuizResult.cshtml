@@ -57,9 +57,28 @@
     .card-main{
         height: 100vh;
     }
+
+    html{
+            overflow: hidden;
+    }
+    body {
+        background-image: url("/img/default/space_background.jpg");
+        background-attachment: fixed;
+        background-size: cover;
+    }
+
+    footer{
+        padding: 9px 10px 6px;
+        font-weight: bold;
+        float: none;
+        clear: both;
+        width: 100%;
+        height: 40px;
+    }
+    </style>
 }
-</style>
-}
+
+<div class="bg-image">
     <div class="row d-flex justify-content-center align-items-center card-main">
         <div class="card col-lg-7 col-m-8 col-sm-10" >
             <h2 class="card-header">Quiz result</h2>
@@ -72,6 +91,8 @@
                      <span class="skill-count1">@percentage%</span>
                     </div>
                 </div>
-            </div>
+                <button class="btn btn-info" asp-action="Index" asp-controller="Quizes">Return to the quizes list</button>
+            </div> 
         </div>
     </div>
+</div>
