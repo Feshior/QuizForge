@@ -2,7 +2,7 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @{
-    ViewData["Title"] = "Quizes list";
+    ViewData["Title"] = "Quizzes list";
     string userId = (User.FindFirstValue(ClaimTypes.NameIdentifier));
 
 
@@ -51,7 +51,7 @@
     </style>
 }
 
-<h1 class="text-center m-4 text-white">Quizes list</h1>
+    <h1 class="text-center m-4 text-white">Quizzes list</h1>
 
 
     <div class="row justify-content-center ms-2 me-2">
@@ -93,7 +93,7 @@
                                                       </h6>
                         }
                     }
-                    <form method="get" asp-controller="Quizes" asp-action="PassTest">
+                    <form method="get" asp-controller="Quizzes" asp-action="PassTest">
                         <input value="@Model.Quizzes[i].Id" id="quizId" type="hidden" name="quizId">
                     <button  class="btn btn-primary" type="submit">Start quiz</button>
                     </form>

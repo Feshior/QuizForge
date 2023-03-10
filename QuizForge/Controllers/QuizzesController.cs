@@ -10,11 +10,11 @@ using System.Configuration;
 
 namespace QuizForge.Controllers
 {
-    public class QuizesController : Controller
+    public class QuizzesController : Controller
     {
         ApplicationDbContext dbContext;
         SignInManager<ApplicationUser> SignInManager;
-        public QuizesController(ApplicationDbContext dbContext, SignInManager<ApplicationUser> SignInManager)
+        public QuizzesController(ApplicationDbContext dbContext, SignInManager<ApplicationUser> SignInManager)
         {
             this.dbContext = dbContext;
             this.SignInManager = SignInManager;
