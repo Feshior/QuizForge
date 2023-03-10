@@ -30,7 +30,7 @@ namespace QuizForge.Controllers
                 //foreach(var item in dbContext.UserPoints.Where(p => (p.UserQuiz.ApplicationUser.Email == userEmail)).ToList()){
                 //    Console.WriteLine($"{item.Points} points");
                 //}
-                return View(new QuizListViewModel()
+                return View("Index" ,new QuizListViewModel()
                 {
                     Quizzes = await dbContext.Quizzes.Include(q=>q.UserQuizzes).Include(q=>q.QuizQuestions).ToListAsync(),
                     UserPoints = await dbContext.UserPoints.Where(p => (p.UserQuiz.ApplicationUser.Email == userEmail)).ToListAsync()
@@ -38,7 +38,7 @@ namespace QuizForge.Controllers
             }
             else
             {
-                return View(new QuizListViewModel()
+                return View("Index",new QuizListViewModel()
                 {
                     Quizzes = await dbContext.Quizzes.ToListAsync()
                 });

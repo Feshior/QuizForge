@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "404 - QuizForge";
+}
+
+@section head{
+    <style>
+        html {
+            overflow: hidden;
+        }
+
+        body {
+            background-image: url("/img/default/404-bg.jpg");
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        .card-main {
+            height: 100vh;
+        }
+    </style>
+}
+
+<div class="bg-image">
+    <div class="row d-flex justify-content-center align-items-center card-main">
+            <div class="card col-lg-7 col-m-8 col-sm-10 bg-dark mb-3 w-50 h-25">
+            <h2 class="card-header text-warning text-center">404</h2>
+            <div class="text-center card-text">
+                <h2 class="text-info">The page you requested was not found</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
