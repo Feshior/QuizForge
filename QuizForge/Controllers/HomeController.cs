@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QuizForge.Models;
+using QuizForge.ViewModels;
 using System.Diagnostics;
 
 namespace QuizForge.Controllers
@@ -11,7 +12,6 @@ namespace QuizForge.Controllers
         {
             return View();
         }
-
         public IActionResult Privacy()
         {
             return View();

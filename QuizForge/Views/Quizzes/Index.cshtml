@@ -15,61 +15,68 @@
             height: 300px;
             object-fit: cover;
         }
+        body{
+            background-image: url("/img/default/quizzes-list-bg.jpg");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
 
     </style>
 }
-            <!--Section: Content-->
-            <section class="text-center m-5">
-                <h4 class="mb-5"><strong>Quizzes list</strong></h4>
+
+<!--Section: Content-->
+<section class="text-center m-5">
+    <h2 class="mb-5 fst-italic text-light"><strong>Quizzes list</strong></h2>
                 
-                <div class="row">
-                      @for(int i = 0;i < Model.Quizzes.Count; i++)
-                        {
-                        @*Genereting list with points*@
-                        List<UserPoint> points = Model.UserPoints.Where(u =>
-                        u.UserQuizId == (Model.Quizzes[i])
-                        .UserQuizzes.FirstOrDefault(u => u.ApplicationUserId == userId)?.Id)
-                        .ToList();
+    <div class="row">
+            @for(int i = 0;i < Model.Quizzes.Count; i++)
+            {
+            @*Genereting list with points*@
+            List<UserPoint> points = Model.UserPoints.Where(u =>
+            u.UserQuizId == (Model.Quizzes[i])
+            .UserQuizzes.FirstOrDefault(u => u.ApplicationUserId == userId)?.Id)
+            .ToList();
                             
                      
 
-                    <div class="col-lg-4 col-md-12 mb-4">
-                        <div class="card">
-                            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                        <img src="@Model.Quizzes[i].QuizImage" class="my-img-card" />
-                                <a href="#!">
-                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                                </a>
-                            </div>
-                            <div class="card-body">
-                        <h5 class="card-title">@Model.Quizzes[i].QuizName</h5>
-                                <p class="card-text">
-                                    Attempts:
-                                    @if (SignInManager.IsSignedIn(User))
-                                    {
-                                        @points.Count()
-                                    }
-                                    else
-                                    {
-                                        @:0
-                                    } / @Model.Quizzes[i].MaxAttempts
-                                </p>
-                        <div class="progress m-2" style="height: 20px;">
+        <div class="col-lg-4 col-md-12 mb-4">
+            <div class="card bg-light">
+                <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+            <img src="@Model.Quizzes[i].QuizImage" class="my-img-card" />
+                    <a href="#!">
+                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                    </a>
+                </div>
+                <div class="card-body">
+            <h5 class="card-title">@Model.Quizzes[i].QuizName</h5>
+                    <p class="card-text">
+                        Attempts:
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            @points.Count()
+                        }
+                        else
+                        {
+                            @:0
+                        } / @Model.Quizzes[i].MaxAttempts
+                    </p>
+            <div class="progress m-2" style="height: 20px;">
                             @{
-                                double percentage = (Math.Round((points.LastOrDefault()?.Points ?? 0) / (double)Model.Quizzes[i].QuizPoints, 2))*100;
-                            }
-                            <div class="progress-bar" role="progressbar" style="width:@percentage%;" aria-valuenow="@percentage" aria-valuemin="0" aria-valuemax="100">@percentage%</div>
-                        </div>
-                        <form method="get" asp-controller="Quizzes" asp-action="PassTest">
-                            <input value="@Model.Quizzes[i].Id" id="quizId" type="hidden" name="quizId">
-                            <button class="btn btn-primary" type="submit">Start quiz</button>
-                        </form>
-                            </div>
-                        </div>
-                    </div>
-                    }
-                    </div>
-                    </section>
+                                double QuizPoints= (double)Model.Quizzes[i].QuizPoints == 0 ? 1 : (double)Model.Quizzes[i].QuizPoints;
+                                double percentage = (Math.Round((points.LastOrDefault()?.Points ?? 0) / QuizPoints, 2)) * 100;
+                }
+                <div class="progress-bar" role="progressbar" style="width:@percentage%;" aria-valuenow="@percentage" aria-valuemin="0" aria-valuemax="100">@percentage%</div>
+            </div>
+            <form method="get" asp-controller="Quizzes" asp-action="PassTest">
+                <input value="@Model.Quizzes[i].Id" id="quizId" type="hidden" name="quizId">
+                <button class="btn btn-primary" type="submit">Start quiz</button>
+            </form>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</section>
                    
 
   @*  <main class="my-5">

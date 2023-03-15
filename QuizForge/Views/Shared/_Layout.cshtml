@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <meta name="viewport" content="width=device-width" />
     <title>@ViewData["Title"] - QuizForge</title>
     
@@ -61,7 +62,14 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Quizzes" asp-action="Index">Quizzes</a>
                         </li>
+                        if (User?.Identity?.Name == "holo@gmail.com")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="QuizzesEditor" asp-action="Index">Quizzes editor</a>
+                            </li>
+                        }
                     }
+
 
                 </ul>
                     <div class="form-inline my-2 my-lg-0 ms-auto">
@@ -86,6 +94,9 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"
     ></script>
 
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>*@
+    <script src="https://kit.fontawesome.com/c350deed4c.js" crossorigin="anonymous"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", false)
 </body>

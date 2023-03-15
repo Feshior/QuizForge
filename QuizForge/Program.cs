@@ -45,8 +45,8 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
-var context = app.Services.CreateScope().ServiceProvider
-    .GetRequiredService<ApplicationDbContext>();
-SeedData.SeedDatabase(context);
+//var context = app.Services.CreateScope().ServiceProvider
+//    .GetRequiredService<ApplicationDbContext>();
+//SeedData.SeedDatabase(context);
 
 app.Run();

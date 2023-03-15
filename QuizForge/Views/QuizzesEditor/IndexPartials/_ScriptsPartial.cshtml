@@ -1,0 +1,120 @@
+﻿
+
+<script>
+    $('document').ready(() => {
+        updateData();
+    });
+
+    let quizId = -1;
+    function pressed(newId) {
+        quizId = newId;
+    }
+    function deleteQuiz() {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("IndexPost", "QuizzesEditor")",
+            data: {
+                id: quizId,
+            },
+            success: function (result) {
+                $('#removeQuizModel').modal('hide');
+                showSuccessModal(result);
+                setTimeout(updateData(), 200);
+            },
+            error: function (result) {
+                $('#removeQuizModel').modal('hide');
+                showErrorModal(result);
+            }
+        });
+       
+    }
+
+    function loadQuizPreviewFile(event) {
+        var output = document.getElementById('quizAdd_previewImage');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function () {
+            URL.revokeObjectURL(output.src)
+        }
+    }
+    function cleanData() {
+        $("tbody > tr").remove();
+    }
+    function updateData() {
+        cleanData();
+        $("#loaderBar").show();
+        $.getJSON('@Url.Action("GetQuizzes", "QuizzesApi")',
+            function (json) {
+                var tr;
+                for (var i = 0; i < json.length; i++) {
+                    let output;
+                    tr = $('<tr/>');
+                    tr.append("<td>" + json[i].id + "</td>");
+                    output= '<td\>'
+                        + '<div class="d-flex align-items-center"\>' 
+                        + '<img src=' + json[i].quizImage + ' style="width: 45px; height: 45px" class="rounded" \/\>'
+                        + '<div class="ms-3"\>' 
+                        + '<p class="fw-bold mb-1">'+ json[i].quizName +'</p\>' 
+                        + '</div\>'
+                        + '</div\>'
+                        + '</td\>';
+                    tr.append(output);
+
+                    tr.append("<td>" + json[i].quizPoints + "</td>");
+                    tr.append("<td>" + json[i].maxAttempts + "</td>");
+
+                    output = '<td> <a role = "button" data-mdb-toggle="modal" data-mdb-target="#removeQuizModel" onclick = "pressed(' + json[i].id + ')" > <i class="fa-lg fa-solid fa-trash" > </i></a > </td>';
+                    tr.append(output);
+                    $('#table-body').append(tr);
+                }
+            });
+        $("#loaderBar").hide();
+
+    }
+
+
+    $("#QuizAddForm").submit(function (e) {
+        e.preventDefault();
+        console.log("Input");
+        var fdata = new FormData();
+
+        fdata.append("QuizName", $("input[name='QuizName']").val());
+        fdata.append("QuizMaxAttempts", $("input[name='QuizMaxAttempts']").val());
+
+        var fileInput = $("input[type='file']")[0];
+        var file = fileInput.files[0];
+        fdata.append($("input[type='file']").attr("name"), file);
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("QuizzesEditorPost","QuizzesEditor")",
+            data: fdata,
+            processData: false,
+            contentType: false,
+            success: function (result) {
+                $('#addQuizModal').modal('hide');
+                showSuccessModal(result);
+                setTimeout(updateData(), 200);
+            },
+            error: function (result) {
+                $('#addQuizModal').modal('hide');
+                showErrorModal(result);
+            },
+            complete: function (data) {
+                
+            }
+        });
+    });
+
+    function showErrorModal(text){
+        $('#errorModalText > div').remove();
+        $('#errorModalText').append('<div>' + text + '</div>');
+        $('#errorModal').modal('show');
+    }
+
+    function showSuccessModal(text) {
+        $('#successModalText > div').remove();
+        $('#successModalText').append('<div>' + text + '</div>');
+        $('#successModal').modal('show');
+    }
+</script>

@@ -1,0 +1,66 @@
+﻿@model AddQuizViewModel
+
+@section head{
+    <style>
+        .myfooter{
+            min-height: 50px;
+        }
+    </style>
+}
+
+<div class="modal fade" id="addQuizModal" tabindex="-1" aria-labelledby="addQuizModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addQuizModalLabel">Add quiz</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+            <form id="QuizAddForm" asp-action="QuizzesEditorPost" asp-controller="QuizzesEditor" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <!--Form section-->
+                            <div class="col-6">
+                                <h5 class="text-center">Quiz parameters</h5>
+                               
+                                <div class="form-outline mb-4">
+                                    <input type="text" class="form-control" asp-for="QuizName" />
+                                    <label class="form-label" asp-for="QuizName">Quiz name: </label>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <input type="number" value="10" class="form-control" asp-for="QuizMaxAttempts"
+                                           data-mdb-toggle="popover"
+                                           title="Tip: "
+                                           data-mdb-content="Set max attempts to 0 to make this quiz private"
+                                           data-mdb-trigger="hover" />
+                                    <label class="form-label" asp-for="QuizMaxAttempts">Max attempts: </label>
+                                </div>
+
+                               <label class="form-label" asp-for="QuizImage">Quiz image</label>
+                                    <input type="file" accept="image/*" class="form-control" onchange="loadQuizPreviewFile(event)" asp-for="QuizImage" />
+                                @*accept="image/*"*@
+                            
+                            </div>
+
+                            <!--Image section-->
+                            <div class="col-6 text-center">
+                                <h5 class="texSt-center">Image preview</h5>
+                                <img id="quizAdd_previewImage" class="rounded" style="height: 30vh; object-fit: cover;" src="~/img/default/quiz_default.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer myfooter">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Dismiss</button>
+                    <button type="submit" class="btn btn-success">Add</button>
+                </div>
+            </form>
+            </div>
+
+        </div>
+    
+</div>
+
+                                
