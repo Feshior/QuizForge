@@ -32,7 +32,7 @@ namespace QuizForge.Controllers
                 //}
                 return View("Index" ,new QuizListViewModel()
                 {
-                    Quizzes = await dbContext.Quizzes.Include(q=>q.UserQuizzes).Include(q=>q.QuizQuestions).ToListAsync(),
+                    Quizzes = await dbContext.Quizzes.Where(q=>q.MaxAttempts !=0 ).Include(q=>q.UserQuizzes).Include(q=>q.QuizQuestions).ToListAsync(),
                     UserPoints = await dbContext.UserPoints.Where(p => (p.UserQuiz.ApplicationUser.Email == userEmail)).ToListAsync()
             });
             }

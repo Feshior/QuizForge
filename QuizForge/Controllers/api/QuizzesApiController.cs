@@ -24,7 +24,7 @@ namespace QuizForge.Controllers.api
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetQuiz(int id = 0)
+        public async Task<IActionResult> GetQuiz(int id = -1)
         {
             Quiz? quiz = await context.Quizzes.FindAsync(id);
             if(quiz == null)
@@ -33,9 +33,9 @@ namespace QuizForge.Controllers.api
             }
             return Ok(quiz);
         }
-        public IAsyncEnumerable<Quiz> GetQuizzes()
+        public List<Quiz> GetQuizzes()
         {
-            return context.Quizzes.AsAsyncEnumerable();
+            return context.Quizzes.ToList();
         }
 
 

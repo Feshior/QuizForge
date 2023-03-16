@@ -23,7 +23,8 @@
             },
             error: function (result) {
                 $('#removeQuizModel').modal('hide');
-                showErrorModal(result);
+                console.log(result);
+                showErrorModal(result.responseText);
             }
         });
        

@@ -48,7 +48,8 @@ namespace QuizForge.Controllers
                 return Forbid("User is not authorized or doesn't have enough permissions");
             try
             {
-                Quiz? quizToDelete = context.Quizzes.Where(q => q.Id == id).FirstOrDefault();
+                context.SaveChanges();
+                Quiz? quizToDelete = context.Quizzes.FirstOrDefault(q => q.Id == id);
                 if (quizToDelete == null) return NotFound("Quiz was not founded. If you sure that this quiz exist, try again later");
                 string quizImage = quizToDelete.QuizImage;
 
@@ -144,7 +145,10 @@ namespace QuizForge.Controllers
                     if (!Directory.Exists(SystemPathUserUploads))
                         Directory.CreateDirectory(SystemPathUserUploads);
 
-                    await vm.QuizImage.CopyToAsync(new FileStream(fileSystemPath, FileMode.Create));
+                    using(var stream = new FileStream(fileSystemPath, FileMode.Create))
+                    {
+                        await vm.QuizImage.CopyToAsync(stream);
+                    }
                     logger.LogInformation($"Created file at {fileSystemPath} from user {User.Identity.Name}");
 
                     string localFilePath = Path.Combine($"img\\user_images\\{User.Identity.Name}\\", newFileName);
