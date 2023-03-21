@@ -1,0 +1,86 @@
+﻿@model QuestionsEditorIndexViewModel
+
+@{
+    ViewData["Title"] = "Questions editor";
+}
+
+@*@foreach(var item in Model.QuizQuestions){
+    <h1>@item.Question</h1>
+    <img src="@item.QuestionImage" />
+    foreach(var answer in item.QuizAnswers){
+        <h2>@answer.Answer</h2>
+    }
+    
+    <br />
+}
+*@
+
+@for (int i = 0; i < Model?.QuizQuestions.Count; i++)
+{
+    <div class="card mb-3 col-7">
+        @*Indicates Quiz id*@
+        <input type="hidden" name="r-@i--1" value="@Model.QuizQuestions[i].Id" />
+
+        <h4 class="my-card-header text-center">
+            Question - @i
+        </h4>
+
+        @if (Model.QuizQuestions[i].QuestionImage != "")
+        {
+            <div class="card-img-top image-box text-center">
+                <img src="@Model.QuizQuestions[i].QuestionImage" class="card-img-top my-img-card p-3" />
+            </div>
+        }
+
+        <div class="card-body">
+            <h5 class="card-title">@Model.QuizQuestions[i].Question</h5>
+            @{
+                int sw = 0;
+                int tempVal = 0;
+            }
+            @if (Model.QuizQuestions[i].QuizType == QuizType.SelectAnswer)
+            {
+                tempVal = 0;
+                @foreach (var item in Model?.QuizQuestions[i]?.QuizAnswers ?? new List<QuestionAnswer>())
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="r-@i-0" id="r-@i-@tempVal" value="@item.Answer">
+
+                        <label class="form-check-label" for="r-@i-@tempVal">
+                            @item.Answer
+                        </label>
+                    </div>
+                    tempVal++;
+                }
+                sw++;
+            }
+            //For multiple answers
+            else if (Model.QuizQuestions[i].QuizType == QuizType.MultipleAnswers)
+            {
+                tempVal = 0;
+
+                @foreach (var item in Model?.QuizQuestions[i]?.QuizAnswers ?? new List<QuestionAnswer>())
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="r-@i-@tempVal" id="r-@i-@tempVal" value="@item.Answer">
+                        <label class="form-check-label" for="r-@i-@tempVal">
+                            @item.Answer
+                        </label>
+                    </div>
+                    tempVal++;
+                }
+            }
+
+            else
+            {
+
+                <div class="input-group">
+                    @{
+                        //int id = @Model?.QuizQuestionsAnswers?.Where(q => q.QuizQuestionId == Model.QuizQuestions[i].Id)?.FirstOrDefault()?.Id ?? 0;
+                    }
+                    <textarea class="form-control" aria-label="Textarea" name="r-@i-0" id="r-@i-0"></textarea>
+                </div>
+            }
+        </div>
+    </div>
+}
