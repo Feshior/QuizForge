@@ -23,7 +23,7 @@ namespace QuizForge.Pages.QuizzesEditor
         }
 
         [BindProperty]
-        public AddQuestionViewModel? AddQuestionMd { get; set; }
+        public AddQuestionViewModel AddQuestionMd { get; set; } = new AddQuestionViewModel();
 
         public IActionResult OnPost()
         {
@@ -31,8 +31,6 @@ namespace QuizForge.Pages.QuizzesEditor
             {
                 List<string> errors = new List<string>();
                 ModelStateEntry[] values = ModelState.Values.ToArray();
-
-                string message = "";
 
                 for (int i=0; i < values.Count(); i++)
                 {
