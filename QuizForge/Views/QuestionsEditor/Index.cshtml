@@ -12,7 +12,7 @@
 
     <div class="row d-flex justify-content-between m-1 mb-3 mt-3 ">
 @*        <button class="btn btn-success m-2 col-md-3 col-sm-12" data-mdb-toggle="modal" data-mdb-target="#addQuestionModal">Add question</button>
-        *@        <button class="btn btn-success m-2 col-md-3 col-sm-12" asp-page-handler="AddQuestion">Add question</button>
+        *@        <a class="btn btn-success m-2 col-md-3 col-sm-12" href="@Url.Page("/QuestionsEditor/AddQuestion")">Add question</a>
         <button class="btn btn-info col-sm-12 m-2 col-md-3" onclick="updateData()">Reload</button>
     </div>
     <div class="text-center">
