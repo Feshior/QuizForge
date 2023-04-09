@@ -10,7 +10,7 @@ namespace QuizForge.Pages.QuizzesEditor
 {
     public class AddQuestionModel : PageModel
     {
-        public Quiz Quiz { get; set; } = new Quiz() { Id =-1};
+        public Quiz? Quiz { get; set; }
         private ApplicationDbContext _context;
         public AddQuestionModel(ApplicationDbContext applicationDbContext)
         {
@@ -21,7 +21,9 @@ namespace QuizForge.Pages.QuizzesEditor
             if (quizId == -1)
                 return RedirectToPage("/Results/404");
 
-            Quiz = _context.Quizzes.Where(q => q.Id == quizId).FirstOrDefault() ?? new Quiz();
+            Quiz = _context.Quizzes.Where(q => q.Id == quizId).FirstOrDefault();
+            if(Quiz == null)
+                return RedirectToPage("/Results/404");
             return Page();
         }
 
@@ -55,9 +57,21 @@ namespace QuizForge.Pages.QuizzesEditor
             }
 
 
+            Quiz? quizToEdit = _context.Quizzes.FirstOrDefault(q => q.Id == AddQuestionMd.QuizId);
+            if(quizToEdit == null)
+            {
+                return RedirectToPage("ResultPage",
+                new
+                {
+                    Result = false,
+                    Messages = new List<string> { "Quiz was not found!"}
+                }
+                );
+            }
+
             QuizQuestion newQuestion = new QuizQuestion();
-            newQuestion.QuizId = Quiz.Id;
-            Console.WriteLine($"{Quiz.Id}- -----------------------------");
+            newQuestion.Quiz = quizToEdit;
+            Console.WriteLine($"{quizToEdit.Id}- -----------------------------");
             
             newQuestion.QuestionPoints = AddQuestionMd.Points;
             newQuestion.Question = AddQuestionMd.Question;
@@ -72,14 +86,11 @@ namespace QuizForge.Pages.QuizzesEditor
 
             _context.QuizQuestions.Add(newQuestion);
 
+            // Updating quiz points
+            int points = (int)(_context.QuizQuestions.Where(q => q.QuizId == quizToEdit.Id).Sum(question => question.QuestionPoints));
+            quizToEdit.QuizPoints = points;
+
             _context.SaveChanges();
-
-            //Updating quiz points
-
-            int points = (int)(_context.QuizQuestions.Where(q => q.QuizId == Quiz.Id).Sum(question => question.QuestionPoints));
-            Quiz.QuizPoints = points;
-            _context.SaveChanges();
-
 
             return RedirectToPage("ResultPage",
                 new {
