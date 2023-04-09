@@ -45,7 +45,7 @@
         <div class="welcome-div">
            <h1 class="text-light">Welcome to the QuizForge</h1>
             @if (SignInManager.IsSignedIn(User)){
-                <h3 class="text-white fst-italic">Glad to see you, @currentUser.VisibleName</h3>
+                <h3 class="text-white fst-italic">Glad to see you, @currentUser?.VisibleName</h3>
                 <a class="btn btn-outline-light" asp-controller="Quizzes" asp-action="Index">Quizzes list</a>
             }else{
                 <h3 class="text-info fst-italic">Please register to proceed</h3>

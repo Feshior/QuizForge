@@ -5,7 +5,7 @@ using System.Security.Policy;
 
 namespace QuizForge.Models.QuizModels
 {
-    public enum QuizType
+    public enum QuestionType
     {
         OpenAnswers,
         MultipleAnswers,
@@ -25,11 +25,11 @@ namespace QuizForge.Models.QuizModels
         public string? QuestionImage { get; set; } = string.Empty;
 
 #warning Change name to the QuestionType!
-        private QuizType quizType { get; set; }
+        private QuestionType questionType { get; set; }
             
-        public QuizType QuizType { get {return quizType;}
+        public QuestionType QuestionType { get {return questionType;}
             set { 
-                quizType = value;
+                questionType = value;
             }
         } 
 

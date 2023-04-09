@@ -12,14 +12,15 @@ namespace QuizForge.Controllers
         {
             this.dbContext = context;
         }
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Index(int quizId)
         {
             return View(
                 new QuestionsEditorIndexViewModel()
                 {
-                    QuizQuestions = dbContext.QuizQuestions.Include(q => q.QuizAnswers).ToList()
+                    quizId = quizId
                 }
-                );
+                ) ;
         }
     }
 }

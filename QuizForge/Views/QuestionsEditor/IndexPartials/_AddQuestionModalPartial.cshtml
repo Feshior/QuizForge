@@ -1,0 +1,65 @@
+﻿@model AddQuestionViewModel
+
+<div class="modal fade" id="addQuestionModal" tabindex="-1" aria-labelledby="addQuestionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addQuestionModalLabel">Add question</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="QuizAddForm" asp-action="QuizzesEditorPost" asp-controller="QuizzesEditor" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <!--Form section-->
+                            <div class="col-6">
+                                <h5 class="text-center">Question parameters</h5>
+
+                                <div class="form-outline mb-4">
+                                    <input type="text" class="form-control"  />
+                                    <label class="form-label">Question: </label>
+                                </div>
+
+                               
+
+                                <div class="form-outline mb-4">
+                                    <input type="number" value="10" class="form-control" />
+                                    <label class="form-label" >Points: </label>
+                                </div>
+
+                                <label class="form-label" >Quiz image</label>
+                                <input type="file" accept="image/*" class="form-control" onchange="loadQuestionAddFile(event)" />
+
+
+                            </div>
+
+                            <!--Image section-->
+                            <div class="col-6 text-center">
+                                <h5 class="text-center">Image preview</h5>
+                                <img id="questionAdd_previewImage" class="rounded" style="height: 30vh; object-fit: cover;" src="~/img/default/quiz_default.png">
+                            </div>
+                        </div>
+                        <div class="row mt-4 text-center">
+                            <div>
+                                <h4>Answer</h4>
+                                <div class="form-outline mb-4">
+                                    <input type="text" class="form-control" />
+                                    <label class="form-label">Answer: </label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer myfooter">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Dismiss</button>
+                    <button type="submit" class="btn btn-success">Add</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+

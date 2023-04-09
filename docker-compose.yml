@@ -1,0 +1,33 @@
+version: '3.4'
+
+networks:
+  quizforge:
+
+services:
+  quizforgedb:
+    container_name: quizforge-db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - 8002:1443
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=I3064Z8aff
+    networks:
+      - quizforge
+
+  quizforgeserver:
+    container_name: quiz-forge-app
+    image: ${DOCKER_REGISTRY-}quizforge
+    build:
+      context: .
+      dockerfile: QuizForge/Dockerfile
+    ports:
+      - 5000:80
+    depends_on:
+      - quizforgedb 
+    environment:
+      - DB_HOST=quizforgedb
+      - DB_NAME=QuizForgeDb
+      - DB_SA_PASSWORD=I3064Z8aff
+    networks:
+      - quizforge

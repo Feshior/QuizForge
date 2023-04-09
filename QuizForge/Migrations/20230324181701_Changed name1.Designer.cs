@@ -12,8 +12,8 @@ using QuizForge.Data;
 namespace QuizForge.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230304213317_Changed UserQuiz")]
-    partial class ChangedUserQuiz
+    [Migration("20230324181701_Changed name1")]
+    partial class Changedname1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -161,7 +161,7 @@ namespace QuizForge.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("QuizForge.Models.QuizModels.QuestionAnswers", b =>
+            modelBuilder.Entity("QuizForge.Models.QuizModels.QuestionAnswer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -232,10 +232,10 @@ namespace QuizForge.Migrations
                     b.Property<double>("QuestionPoints")
                         .HasColumnType("float");
 
-                    b.Property<int>("QuizId")
+                    b.Property<int>("QuestionType")
                         .HasColumnType("int");
 
-                    b.Property<int>("QuestionType")
+                    b.Property<int>("QuizId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -410,7 +410,7 @@ namespace QuizForge.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QuizForge.Models.QuizModels.QuestionAnswers", b =>
+            modelBuilder.Entity("QuizForge.Models.QuizModels.QuestionAnswer", b =>
                 {
                     b.HasOne("QuizForge.Models.QuizModels.QuizQuestion", "QuizQuestion")
                         .WithMany("QuizAnswers")

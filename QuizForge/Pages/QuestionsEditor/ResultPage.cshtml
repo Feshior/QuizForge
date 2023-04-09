@@ -1,0 +1,16 @@
+﻿@page
+@model QuizForge.Pages.QuestionsEditor.ResultPageModel
+@{
+    ViewData["Title"] = "Result";
+}
+<div class="mt-5">
+    Result - @Model.Result;
+    @foreach(var item in Model.Messages){
+        <div>@item</div>
+        <hr />
+        <br />
+    }
+    <br />
+    <a class="btn btn-primary" href="@Url.Page("AddQuestion")" >Add another one</a>
+    <a class="btn btn-secoundary " href="@Url.Action("Index","QuestionsEditor")">Back to the list</a>
+</div>

@@ -104,11 +104,16 @@
                     tr.append("<td>" + json[i].quizPoints + "</td>");
                     tr.append("<td>" + json[i].maxAttempts + "</td>");
 
+                    var questionEditorLink = "@Url.Action("Index", "QuestionsEditor")";
+
                     output = '<td> <a role = "button" data-mdb-toggle="modal" data-mdb-target="#removeQuizModel" onclick = "pressed(' + json[i].id + ')" >' + 
                     ' <i class="fa-lg fa-solid fa-trash" ></i></a >' +
                         '<a role = "button" data-mdb-toggle="modal" data-mdb-target="#editQuizModal" onclick = "pressed(' + json[i].id + ')" >' +
                         ' <i class="fa-lg fa-regular fa-pen-to-square ms-2"></i></a>' +
-                    ' </td>';
+
+                        '<a role = "button" href="' + questionEditorLink + '?quizid=' + json[i].id + '">' +
+                        ' <i class="fa-lg fa-solid fa-question ms-2"></i></a>' +
+                        ' </td>';
                     tr.append(output);
                     $('#table-body').append(tr);
                 }
@@ -117,6 +122,8 @@
 
     }
 
+
+   
 
     $("#QuizAddForm").submit(function (e) {
         e.preventDefault();

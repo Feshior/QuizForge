@@ -84,7 +84,7 @@
                         int sw = 0;
                         int tempVal = 0;
                     }
-                    @if (Model.QuizQuestions[i].QuizType == QuizType.SelectAnswer)
+                    @if (Model.QuizQuestions[i].QuestionType == QuestionType.SelectAnswer)
                     {
                             tempVal = 0;
                             @foreach (var item in Model.QuizQuestionsAnswers.Where(q => q.QuizQuestionId == Model.QuizQuestions[i].Id).ToList())
@@ -101,7 +101,7 @@
                             sw++;
                     }
                     //For multiple answers
-                    else if (Model.QuizQuestions[i].QuizType == QuizType.MultipleAnswers){
+                    else if (Model.QuizQuestions[i].QuestionType == QuestionType.MultipleAnswers){
                             tempVal = 0;
                         
                         @foreach (var item in Model.QuizQuestionsAnswers.Where(q => q.QuizQuestionId == Model.QuizQuestions[i].Id).ToList())

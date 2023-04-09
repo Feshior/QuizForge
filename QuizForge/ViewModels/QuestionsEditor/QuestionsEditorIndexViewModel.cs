@@ -2,7 +2,8 @@
 
 namespace QuizForge.ViewModels.QuestionsEditor
 {
-    public class QuestionsEditorIndexViewModel { 
-        public List<QuizQuestion> QuizQuestions { get; set; } = new List<QuizQuestion>();
+    public class QuestionsEditorIndexViewModel {
+        public int quizId { get; set; }
+        public AddQuestionViewModel? addQuestionViewModel { get; set; }
     }
 }

@@ -1,0 +1,72 @@
+﻿@model int
+<script>
+    $('document').ready(() => {
+        updateData();
+    });
+
+    let quizId = -1;
+    function pressed(newId) {
+        quizId = newId;
+    }
+
+    function updateData() {
+        cleanData();
+        $("#loaderBar").show();
+        
+        var quizId = @Model;
+        var request = "@Url.Action("GetQuizQuestions", "QuestionsApi")" + "?id=" + quizId;
+
+        $.getJSON(request,
+            function(json){
+                var tr;
+                for (var i = 0; i < json.length; i++) {
+                    tr = $('<tr/>');
+                    tr.append("<td>" + json[i].id + "</td>");
+                    var imageLink = json[i].questionImage;
+                    var output;
+                    if(imageLink != ""){
+                        output = '<td\>'
+                                        + '<div class="d-flex align-items-center"\>'
+                            + '<img src=' + json[i].questionImage + ' style="width: 45px; height: 45px" class="rounded" \/\>'
+                                        + '<div class="ms-3"\>'
+                                        + '<p class="fw-bold mb-1">' + json[i].question + '</p\>'
+                                        + '</div\>'
+                                        + '</div\>'
+                                        + '</td\>';
+                    }
+                    else{
+                        output = '<td\>'
+                            + '<div class="d-flex align-items-center"\>'
+                            + '<div class="ms-3"\>'
+                            + '<p class="fw-bold mb-1">' + json[i].question + '</p\>'
+                            + '</div\>'
+                            + '</div\>'
+                            + '</td\>';
+                    }
+                    tr.append(output);
+
+                    tr.append("<td>" + json[i].questionPoints + "</td>");
+
+                    $('#table-body').append(tr);
+                }
+                console.log(json);
+            });
+        $("#loaderBar").hide();
+
+    }
+
+    function cleanData(){
+        $("tbody > tr").remove();
+    }
+
+    function loadQuestionAddFile(event) {
+        var output = document.getElementById('questionAdd_previewImage');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function () {
+            URL.revokeObjectURL(output.src)
+        }
+    }
+    
+
+    
+</script>

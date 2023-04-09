@@ -4,6 +4,46 @@
     ViewData["Title"] = "Questions editor";
 }
 
+<!--Add question modal-->
+@*<partial name="IndexPartials/_AddQuestionModalPartial" model="Model.addQuestionViewModel" />
+*@
+<div class="tableDiv table-responsive shadow m-5 bg-light rounded">
+    <h3 class="text-center thead-light mt-3">Questions list</h3>
+
+    <div class="row d-flex justify-content-between m-1 mb-3 mt-3 ">
+@*        <button class="btn btn-success m-2 col-md-3 col-sm-12" data-mdb-toggle="modal" data-mdb-target="#addQuestionModal">Add question</button>
+        *@        <button class="btn btn-success m-2 col-md-3 col-sm-12" asp-page-handler="AddQuestion">Add question</button>
+        <button class="btn btn-info col-sm-12 m-2 col-md-3" onclick="updateData()">Reload</button>
+    </div>
+    <div class="text-center">
+    <div class="spinner-border" role="status" id="loaderBar">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    </div>
+    @*<div class="loading text-center" data-mdb-parent-selector="#loading-test-4" id="loaderBar">
+        <div class="spinner-grow loading-icon" role="status">
+            <span class="loading-text">Loading...</span>
+        </div>
+    </div>*@
+    <table id="QuizzesTable" class="table table-light table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Points</th>
+                <th>Modify</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+        </tbody>
+    </table>
+
+</div>
+
+@section Scripts{
+    <partial name="IndexPartials/_ScriptsPartial" model="Model.quizId" />
+    }
+
 @*@foreach(var item in Model.QuizQuestions){
     <h1>@item.Question</h1>
     <img src="@item.QuestionImage" />
@@ -12,13 +52,13 @@
     }
     
     <br />
-}
-*@
+}*@
 
-@for (int i = 0; i < Model?.QuizQuestions.Count; i++)
+
+@*@for (int i = 0; i < Model?.QuizQuestions.Count; i++)
 {
     <div class="card mb-3 col-7">
-        @*Indicates Quiz id*@
+
         <input type="hidden" name="r-@i--1" value="@Model.QuizQuestions[i].Id" />
 
         <h4 class="my-card-header text-center">
@@ -83,4 +123,4 @@
             }
         </div>
     </div>
-}
+}*@
