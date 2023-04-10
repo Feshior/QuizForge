@@ -1,0 +1,60 @@
+﻿@model AddQuizViewModel
+<div class="modal fade" id="editQuizModal" tabindex="-1" aria-labelledby="editQuizModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editQuizModalLabel">Edit Quiz</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-7">
+                        <h5 class="text-center">Quiz parameters</h5>
+
+                        <div class="form-outline mb-4">
+                            <input type="text" class="form-control" asp-for="QuizName" />
+                            <label class="form-label" asp-for="QuizName">Quiz name: </label>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            <input type="number" value="10" class="form-control" asp-for="QuizMaxAttempts"
+                                   data-mdb-toggle="popover"
+                                   title="Tip: "
+                                   data-mdb-content="Set max attempts to 0 to make this quiz private"
+                                   data-mdb-trigger="hover" />
+                            <label class="form-label" asp-for="QuizMaxAttempts">Max attempts: </label>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            <input type="number" value="0" class="form-control" disabled id="QuizEdit_MaxPointsInput" />
+                            <label class="form-label" for="QuizEdit_MaxPointsInput">Max points: </label>
+                        </div>
+                        <label class="form-label" asp-for="QuizImage">Quiz image</label>
+                        <input type="file" accept="image/*" class="form-control" onchange="QuizEditor_loadQuizPreviewFile(event)" asp-for="QuizImage" />
+                      
+
+                    </div>
+                    <div class="col-sm-12 col-lg-5 text-center">
+                        <h5 class="texSt-center">Image preview</h5>
+                       <img id="quizEdit_previewImage" class="rounded" style="height: 30vh; object-fit: cover;" src="~/img/default/quiz_default.png">
+                    </div>
+                    
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Dismiss</button>
+                <button type="button" class="btn btn-success" onclick="updateQuiz()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<template id="QuizEdit_openAnswerTemplate">
+    <div class="form-outline mb-4">
+        <input type="text" class="form-control" for="QuizEdit_QuestionLabel">
+        <label class="form-label" for="QuizEdit_QuestionLabel" style="margin-left: 0px;">Enter correct answer: </label>
+        <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 128.8px;"></div><div class="form-notch-trailing"></div></div>
+    </div>
+</template>

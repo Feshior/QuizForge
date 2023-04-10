@@ -235,7 +235,7 @@ namespace QuizForge.Migrations
                     b.Property<int>("QuizId")
                         .HasColumnType("int");
 
-                    b.Property<int>("QuizType")
+                    b.Property<int>("QuestionType")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

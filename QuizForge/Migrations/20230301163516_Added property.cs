@@ -9,7 +9,7 @@ namespace QuizForge.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "QuizType",
+                name: "QuestionType",
                 table: "QuizQuestions",
                 type: "int",
                 nullable: false,
@@ -19,7 +19,7 @@ namespace QuizForge.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "QuizType",
+                name: "QuestionType",
                 table: "QuizQuestions");
         }
     }

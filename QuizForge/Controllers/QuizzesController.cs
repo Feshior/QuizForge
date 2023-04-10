@@ -10,11 +10,11 @@ using System.Configuration;
 
 namespace QuizForge.Controllers
 {
-    public class QuizesController : Controller
+    public class QuizzesController : Controller
     {
         ApplicationDbContext dbContext;
         SignInManager<ApplicationUser> SignInManager;
-        public QuizesController(ApplicationDbContext dbContext, SignInManager<ApplicationUser> SignInManager)
+        public QuizzesController(ApplicationDbContext dbContext, SignInManager<ApplicationUser> SignInManager)
         {
             this.dbContext = dbContext;
             this.SignInManager = SignInManager;
@@ -30,15 +30,15 @@ namespace QuizForge.Controllers
                 //foreach(var item in dbContext.UserPoints.Where(p => (p.UserQuiz.ApplicationUser.Email == userEmail)).ToList()){
                 //    Console.WriteLine($"{item.Points} points");
                 //}
-                return View(new QuizListViewModel()
+                return View("Index" ,new QuizListViewModel()
                 {
-                    Quizzes = await dbContext.Quizzes.Include(q=>q.UserQuizzes).Include(q=>q.QuizQuestions).ToListAsync(),
+                    Quizzes = await dbContext.Quizzes.Where(q=>q.MaxAttempts !=0 ).Include(q=>q.UserQuizzes).Include(q=>q.QuizQuestions).ToListAsync(),
                     UserPoints = await dbContext.UserPoints.Where(p => (p.UserQuiz.ApplicationUser.Email == userEmail)).ToListAsync()
             });
             }
             else
             {
-                return View(new QuizListViewModel()
+                return View("Index",new QuizListViewModel()
                 {
                     Quizzes = await dbContext.Quizzes.ToListAsync()
                 });
@@ -73,7 +73,7 @@ namespace QuizForge.Controllers
                 }
                 
                 List<QuizQuestion> questionsToPass = quizToPass.QuizQuestions.ToList();
-                List<QuestionAnswers> questionsAnswers = dbContext.QuestionAnswers.Where(q=>q.QuizQuestion.QuizId == quizId).ToList();
+                List<QuestionAnswer> questionsAnswers = dbContext.QuestionAnswers.Where(q=>q.QuizQuestion.QuizId == quizId).ToList();
 
                 return View(new QuizPassViewModel()
                 {

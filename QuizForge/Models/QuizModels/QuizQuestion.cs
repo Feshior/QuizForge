@@ -5,7 +5,7 @@ using System.Security.Policy;
 
 namespace QuizForge.Models.QuizModels
 {
-    public enum QuizType
+    public enum QuestionType
     {
         OpenAnswers,
         MultipleAnswers,
@@ -18,34 +18,18 @@ namespace QuizForge.Models.QuizModels
         [MaxLength(100)]
         public string Question { get; set; } = string.Empty;
         
-        public List<QuestionAnswers> QuizAnswers { get; set; } = new List<QuestionAnswers>();
+        public List<QuestionAnswer> QuizAnswers { get; set; } = new List<QuestionAnswer>();
         public double QuestionPoints { get; set; } = 0.0F;
 
         [AllowNull]
         public string? QuestionImage { get; set; } = string.Empty;
 
-        
-        private QuizType quizType { get; set; }
+#warning Change name to the QuestionType!
+        private QuestionType questionType { get; set; }
             
-        public QuizType QuizType { get {return quizType;}
+        public QuestionType QuestionType { get {return questionType;}
             set { 
-                quizType = value;
-            //if(QuestionImage == String.Empty)
-            //        switch (value)
-            //        {
-            //            case QuizType.OpenAnswers:
-            //                QuestionImage = "openAnswer_default.png";
-            //                break;
-            //            case QuizType.MultipleAnswers:
-            //                QuestionImage = "multipleAnswers_default.png";
-            //                break;
-            //            case QuizType.SelectAnswer:
-            //                QuestionImage = "singleAnswer_default.png";
-            //                break;
-            //            default:
-            //                QuestionImage = "quiz_default.png";
-            //                break;
-            //        }
+                questionType = value;
             }
         } 
 

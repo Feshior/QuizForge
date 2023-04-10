@@ -1,0 +1,62 @@
+﻿@model AddQuizViewModel
+@{
+    ViewData["Title"] = "Quizzes editor";
+}
+
+@section head{
+    <style>
+        .my-table-header{
+            width: 98%;
+        }
+
+        html {
+            overflow: hidden;
+        }
+
+        body {
+            background-image: url("/img/default/admin-panel-bg.jpg");
+            background-attachment: fixed;
+            background-size: cover;
+        }
+    </style>
+}
+
+<!--Adding modals-->
+<partial name="IndexPartials/_QuizAddModalPartial" model="Model" />
+    <partial name="IndexPartials/_QuizEditModalPartial" model="Model" />
+<partial name="IndexPartials/_QuizRemoveModalPartial" model="Model" />
+<partial name="IndexPartials/_RequestResultModalPartial"/>
+<!---->
+
+    <div class="tableDiv table-responsive shadow m-5 bg-light rounded">
+        <h3 class="text-center thead-light mt-3">Quizzes list</h3>
+
+    <div class="row d-flex justify-content-between m-1 mb-3 mt-3 "> 
+        <button class="btn btn-success m-2 col-md-3 col-sm-12" data-mdb-toggle="modal" data-mdb-target="#addQuizModal">Add quiz</button>  
+        <button class="btn btn-info col-sm-12 m-2 col-md-3" onclick="updateData()">Reload</button>
+    </div>
+    <div class="loading text-center" data-mdb-parent-selector="#loading-test-4" id="loaderBar">
+        <div class="spinner-grow loading-icon" role="status"></div>
+        <span class="loading-text">Loading...</span>
+    </div>
+        <table id="QuizzesTable" class="table table-light table-striped" style="width:100%">
+        <thead >
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Points</th>
+            <th>Max atttempts</th>
+            <th>Modify</th>
+        </tr>
+            </thead>
+            <tbody id="table-body" >
+
+            </tbody>
+    </table>
+
+</div>
+
+
+@section Scripts{
+    <partial name="IndexPartials/_ScriptsPartial" />
+    }

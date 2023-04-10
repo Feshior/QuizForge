@@ -1,0 +1,76 @@
+﻿@page
+@model QuizForge.Pages.QuizzesEditor.AddQuestionModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Add question";
+}
+
+<div class="mt-4 row justify-content-center">
+    <div class="col-lg-6 col-md-10 col-sm-12">
+            <form id="QuizAddForm" method="post" enctype="multipart/form-data">
+                <input type="hidden" value="@Model?.Quiz?.Id" asp-for="AddQuestionMd.QuizId"/>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <!--Form section-->
+                            <div class="col-6">
+                                <h5 class="text-center">Question parameters</h5>
+
+                                <div class="form-outline mb-4">
+                                <input type="text" class="form-control" asp-for="AddQuestionMd.Question" />
+                                    <label class="form-label">Question: </label>
+                                </div>
+
+
+
+                                <div class="form-outline mb-4">
+                                <input type="number" value="10" class="form-control" asp-for="AddQuestionMd.Points" />
+                                    <label class="form-label">Points: </label>
+                                </div>
+
+                                <label class="form-label">Quiz image</label>
+                            <input type="file" accept="image/*" class="form-control" onchange="AddQuestion_loadQuestionPreviewFile(event)" asp-for="AddQuestionMd.QuestionImage" />
+
+
+                            </div>
+
+                            <!--Image section-->
+                            <div class="col-6 text-center">
+                                <h5 class="text-center">Image preview</h5>
+                            <img id="addQuestion_previewImage" class="rounded" style="height: 30vh; object-fit: cover;" src="~/img/default/quiz_default.png">
+                            </div>
+                        </div>
+                        <div class="row mt-4 text-center">
+                            <div>
+                                <h4>Answer</h4>
+                                <div class="form-outline mb-4">
+                                <input type="text" class="form-control" asp-for="AddQuestionMd.Answer" />
+                                    <label class="form-label">Answer: </label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer myfooter">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Dismiss</button>
+                    <button type="submit" class="btn btn-success ms-2">Add</button>
+                </div>
+            </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function AddQuestion_loadQuestionPreviewFile(event) {
+            var output = document.getElementById('addQuestion_previewImage');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function () {
+                URL.revokeObjectURL(output.src)
+            }
+        }
+    </script>
+}
+
+                     

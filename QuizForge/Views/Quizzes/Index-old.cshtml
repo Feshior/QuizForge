@@ -2,7 +2,7 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @{
-    ViewData["Title"] = "Quizes list";
+    ViewData["Title"] = "Quizzes list";
     string userId = (User.FindFirstValue(ClaimTypes.NameIdentifier));
 
 
@@ -11,6 +11,11 @@
 
 @section head{
     <style>
+        body{
+            background-image: url("/img/default/space_background.jpg");
+            background-attachment: fixed;
+            background-size: cover;
+        }
         .my-img-card{
             width: 9rem;
             height: 8.5rem;
@@ -46,9 +51,9 @@
     </style>
 }
 
-<h1 class="text-center m-4">Quizes list</h1>
+    <h1 class="text-center m-4 text-white">Quizzes list</h1>
 
-<hr />
+
     <div class="row justify-content-center ms-2 me-2">
         @for(int i = 0;i < Model.Quizzes.Count; i++)
     {
@@ -83,12 +88,12 @@
                         
                         if (SignInManager.IsSignedIn(User))
                         {
-                                      <h6 class="card-text">Your score:
-                                @(points.LastOrDefault()?.Points ?? 0)
-                                      </h6>
+                                                      <h6 class="card-text">Your score:
+                                                @(points.LastOrDefault()?.Points ?? 0)
+                                                      </h6>
                         }
                     }
-                    <form method="get" asp-controller="Quizes" asp-action="PassTest">
+                    <form method="get" asp-controller="Quizzes" asp-action="PassTest">
                         <input value="@Model.Quizzes[i].Id" id="quizId" type="hidden" name="quizId">
                     <button  class="btn btn-primary" type="submit">Start quiz</button>
                     </form>

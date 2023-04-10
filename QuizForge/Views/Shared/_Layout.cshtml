@@ -3,11 +3,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <meta name="viewport" content="width=device-width" />
     <title>@ViewData["Title"] - QuizForge</title>
     
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+          rel="stylesheet" />
+
+ 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
     <link rel="stylesheet" href="~/QuizForge.styles.css" asp-append-version="true" />
 
     <link rel="icon" type="image/x-icon" href="/img/icons/favicon.png">
@@ -37,22 +48,52 @@
             </a>
 
             @*Mobile devices support*@
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
             </button>
 
             @*Menu elements*@
             <div class="collapse navbar-collapse " id="navbarNav">
-                <ul class="navbar-nav ">
+                <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     @if (SignInManager.IsSignedIn(User))
                     {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Quizes" asp-action="Index">Quizes</a>
-                        </li>
+                          
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Quizzes" asp-action="Index">Quizzes</a>
+                            </li>
+                            if (User?.Identity?.Name == "holo@gmail.com")
+                            {
+                                @*<li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="QuizzesEditor" asp-action="Index">Quizzes editor</a>
+                                </li>*@
+
+                            <li class="nav-item me-3 me-lg-0 dropdown">
+                                <a class="nav-link dropdown-toggle"
+                                   href="#"
+                                   id="navbarDropdown"
+                                   role="button"
+                                   data-mdb-toggle="dropdown"
+                                   aria-expanded="false">
+                                Admin
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="nav-link dropdown-item" asp-area="" asp-controller="QuizzesEditor" asp-action="Index">Quizzes editor</a>
+                                    </li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Stats</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            }
+                        
                     }
+
 
                 </ul>
                     <div class="form-inline my-2 my-lg-0 ms-auto">
@@ -65,13 +106,22 @@
     <div>
         @RenderBody()
     </div>
-    <footer class="border-top footer text-muted">
+    <footer class="footer text-muted">
         @RenderSection("footer",false)
         &copy; 2023 - QuizForge
     </footer>
 
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"
+    ></script>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>*@
+    <script src="https://kit.fontawesome.com/c350deed4c.js" crossorigin="anonymous"></script>
+   
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", false)
 </body>

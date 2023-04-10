@@ -7,7 +7,7 @@ namespace QuizForge.ViewModels
     {
         public Quiz Quiz { get; set; } = new Quiz();
         public List<QuizQuestion> QuizQuestions { get; set; } = new List<QuizQuestion>();
-        public List<QuestionAnswers> QuizQuestionsAnswers { get; set; } = new List<QuestionAnswers>();
+        public List<QuestionAnswer> QuizQuestionsAnswers { get; set; } = new List<QuestionAnswer>();
         public int CurrentAttempts { get; set; }
         public bool IsAvaible { get; set; }
 

@@ -8,6 +8,6 @@ namespace QuizForge.Models.UserModels
         [Required]
         public string VisibleName { get; set; } = string.Empty;
 
-        public List<UserQuiz> completetQuizes = new List<UserQuiz>();
+        public List<UserQuiz> completetQuizzes = new List<UserQuiz>();
     }
 }

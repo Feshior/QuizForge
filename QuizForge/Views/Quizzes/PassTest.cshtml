@@ -6,6 +6,11 @@
 
 @section head{
     <style>
+        body {
+            background-image: url("/img/default/space_background.jpg");
+            background-attachment: fixed;
+            background-size: cover;
+        }
         .card{
             border-radius: 2em;
             box-shadow: 0 5px 10px rgba(0,0,0,.2);
@@ -31,6 +36,7 @@
         body{
             overflow-x: hidden;
         }
+
     </style>
 }
 
@@ -39,22 +45,22 @@
     @if(Model.Quiz.QuizName == string.Empty){
         <div class="align-content-center text-center m-5">
         <h2 class="text-danger">Quiz was not found!</h2>
-            <a class="btn btn-primary" asp-controller="Quizes" asp-action="Index" role="button">Back to the Quizes list</a>
+            <a class="btn btn-primary" asp-controller="Quizzes" asp-action="Index" role="button">Back to the Quizes list</a>
         </div>
     }else if(!Model.IsAvaible){
         <div class="align-content-center text-center m-5">
             <h2 class="text-danger">You have already used all your attempts</h2>
             <h3 class="text-info">@Model.CurrentAttempts / @Model.CurrentAttempts</h3>
-            <a class="btn btn-primary" asp-area="" asp-controller="Quizes" asp-action="Index" >Back to the Quizes list</a>
+            <a class="btn btn-primary" asp-area="" asp-controller="Quizzes" asp-action="Index">Back to the Quizzes list</a>
         </div>
 
         <partial name="_ScoreboardPartial" />
     }else{
-        <div class="text-center">
-        <h1>Welcome to the <br> @Model.Quiz.QuizName</h1>
+        <div class="text-center ">
+        <h1 class="welcome-text text-light m-4">Welcome to the <br> @Model.Quiz.QuizName</h1>
         </div>
 
-        <form class="row justify-content-center" method="post" asp-controller="Quizes" asp-action="PassPost">
+        <form class="row justify-content-center" method="post" asp-controller="Quizzes" asp-action="PassPost">
         <input type="hidden" value="@Model.Quiz.Id" name="quiz-id">
         @for(int i = 0; i < Model?.QuizQuestions.Count; i++){
                 <div class="card mb-3 col-7">
@@ -78,7 +84,7 @@
                         int sw = 0;
                         int tempVal = 0;
                     }
-                    @if (Model.QuizQuestions[i].QuizType == QuizType.SelectAnswer)
+                    @if (Model.QuizQuestions[i].QuestionType == QuestionType.SelectAnswer)
                     {
                             tempVal = 0;
                             @foreach (var item in Model.QuizQuestionsAnswers.Where(q => q.QuizQuestionId == Model.QuizQuestions[i].Id).ToList())
@@ -95,7 +101,7 @@
                             sw++;
                     }
                     //For multiple answers
-                    else if (Model.QuizQuestions[i].QuizType == QuizType.MultipleAnswers){
+                    else if (Model.QuizQuestions[i].QuestionType == QuestionType.MultipleAnswers){
                             tempVal = 0;
                         
                         @foreach (var item in Model.QuizQuestionsAnswers.Where(q => q.QuizQuestionId == Model.QuizQuestions[i].Id).ToList())
