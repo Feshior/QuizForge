@@ -125,12 +125,19 @@ namespace QuizForge.Pages.QuizzesEditor
             newQuestion.QuizAnswers.Add(answer);
 
             _context.QuizQuestions.Add(newQuestion);
+            await _context.SaveChangesAsync();
 
             // Updating quiz points
-            int points = (int)(_context.QuizQuestions.Where(q => q.QuizId == quizToEdit.Id).Sum(question => question.QuestionPoints));
-            quizToEdit.QuizPoints = points;
+            Quiz? changedQuiz = _context.Quizzes.FirstOrDefault(q => q.Id == quizToEdit.Id);
+            if (changedQuiz != null)
+            {
+                int points = (int)(_context.QuizQuestions.Where(q => q.QuizId == changedQuiz.Id).Sum(question => question.QuestionPoints));
+                changedQuiz.QuizPoints = points;
+                Console.WriteLine("-----------------" + points);
+                await _context.SaveChangesAsync();
+            }
 
-            _context.SaveChanges();
+
 
             return RedirectToPage("ResultPage",
                 new
