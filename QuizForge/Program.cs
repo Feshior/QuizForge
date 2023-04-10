@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QuizForge.Data;
@@ -22,7 +23,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSingleton<IUserImageUploader, UserImageUploader>();
+builder.Services.AddScoped<IUserImageUploader, UserImageUploader>();
 
 var app = builder.Build();
 

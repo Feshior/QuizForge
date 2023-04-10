@@ -10,17 +10,19 @@ namespace QuizForge.Services
         string[] getAllowedExtensions();
 
     }
+
     public class UserImageUploader : IUserImageUploader
     {
         private readonly string[] allowedImageExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".webp", ".apng" };
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly string webRootPath;
         private ILogger<UserImageUploader> logger;
+
+
         public UserImageUploader(IWebHostEnvironment hostingEnvironment, ILogger<UserImageUploader> logger)
         {
             this.hostingEnvironment = hostingEnvironment;
             webRootPath = hostingEnvironment.WebRootPath;
-
             this.logger = logger;
         }
 
@@ -31,7 +33,7 @@ namespace QuizForge.Services
 
         //Returning two values, first is the exit code, 0 ok, -1 error
         //Second value is error message or relative file path
-        public async Task<string[]> UploadImage(IFormFile file, string userEmail)
+        public async Task<string[]> UploadImage(IFormFile file, string userEmail)//IFormFile file, string userEmail)
         {
             if (!checkImageExtension(file))
             {
@@ -68,12 +70,12 @@ namespace QuizForge.Services
             }
 
             //Logging data
-            logger.LogInformation($"Created file at {fileSystemPath} from user {userEmail}");
+            //logger.LogInformation($"Created file at {fileSystemPath} from user {userEmail}");
 
-            string localFilePath = Path.Combine($"img\\user_images\\{userEmail}\\", newFileName);
+            string localFilePath = Path.Combine($"/img/user_images/{userEmail}/", newFileName);
 
             return new string[2] { "0", localFilePath };
-        }
+    }
 
         private bool checkImageExtension(IFormFile file)
         {
