@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using QuizForge.Data;
 using QuizForge.Models;
 using QuizForge.Models.UserModels;
+using QuizForge.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddSingleton<IUserImageUploader, UserImageUploader>();
 
 var app = builder.Build();
 

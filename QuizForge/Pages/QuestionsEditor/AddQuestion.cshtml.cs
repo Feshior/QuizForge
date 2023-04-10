@@ -71,8 +71,13 @@ namespace QuizForge.Pages.QuizzesEditor
 
             QuizQuestion newQuestion = new QuizQuestion();
             newQuestion.Quiz = quizToEdit;
-            Console.WriteLine($"{quizToEdit.Id}- -----------------------------");
             
+            //Loading image
+            if(AddQuestionMd.QuestionImage != null)
+            {
+
+            }
+
             newQuestion.QuestionPoints = AddQuestionMd.Points;
             newQuestion.Question = AddQuestionMd.Question;
 

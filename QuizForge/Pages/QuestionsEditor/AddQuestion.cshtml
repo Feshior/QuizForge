@@ -8,7 +8,7 @@
 <div class="mt-4 row justify-content-center">
     <div class="col-lg-6 col-md-10 col-sm-12">
             <form id="QuizAddForm" method="post" enctype="multipart/form-data">
-                <input type="hidden" value="@Model.Quiz.Id" asp-for="AddQuestionMd.QuizId"/>
+                <input type="hidden" value="@Model?.Quiz?.Id" asp-for="AddQuestionMd.QuizId"/>
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row">
