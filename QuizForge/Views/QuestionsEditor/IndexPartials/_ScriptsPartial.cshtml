@@ -47,6 +47,11 @@
 
                     tr.append("<td>" + json[i].questionPoints + "</td>");
 
+                    output = '<td class="text-center"> <a role = "button" data-mdb-toggle="modal" data-mdb-target="#removeQuestionModel" onclick = "pressed(' + json[i].id + ')" >' +
+                        ' <i class="fa-lg fa-solid fa-trash" ></i></a >' +
+                        ' </td>';
+                    tr.append(output);
+
                     $('#table-body').append(tr);
                 }
                 console.log(json);
