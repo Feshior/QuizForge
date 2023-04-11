@@ -41,7 +41,7 @@ namespace QuizForge.Controllers
             }
             return View("404");
         }
-
+        //On the way to refactor
         [HttpPost] public IActionResult IndexPost(int id = -1)
         {
             if (!(SignInManager.IsSignedIn(User) && User?.Identity?.Name == adminEmail))
@@ -76,6 +76,7 @@ namespace QuizForge.Controllers
                 //Deleting quiz image
                 if (!quizImage.StartsWith("/img/default/"))
                 {
+
                     string fileToDelete = Path.Combine(webRootPath, $"{quizImage}");
                     if (System.IO.File.Exists(fileToDelete))
                     {
@@ -87,10 +88,12 @@ namespace QuizForge.Controllers
                 //Deleting questions images
                 foreach(string item in questionsImages)
                 {
-                    if (System.IO.File.Exists(item))
+                    string filePath = item.TrimStart('/');
+                    filePath = filePath.TrimStart('\\');
+                    if (System.IO.File.Exists(filePath))
                     {
-                        System.IO.File.Delete(item);
-                        logger.LogInformation($"File deleted - {item}; User - {User.Identity.Name}");
+                        System.IO.File.Delete(filePath);
+                        logger.LogInformation($"File deleted - {filePath}; User - {User.Identity.Name}");
                     }
                 }
                 //--------------------

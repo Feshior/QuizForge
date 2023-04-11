@@ -48,13 +48,13 @@
             <a class="btn btn-primary" asp-controller="Quizzes" asp-action="Index" role="button">Back to the Quizes list</a>
         </div>
     }else if(!Model.IsAvaible){
-        <div class="align-content-center text-center m-5">
+        <div class="align-content-center text-center m-5 bg-dark rounded p-3">
             <h2 class="text-danger">You have already used all your attempts</h2>
             <h3 class="text-info">@Model.CurrentAttempts / @Model.CurrentAttempts</h3>
             <a class="btn btn-primary" asp-area="" asp-controller="Quizzes" asp-action="Index">Back to the Quizzes list</a>
         </div>
 
-        <partial name="_ScoreboardPartial" />
+        @*<partial name="_ScoreboardPartial" />*@
     }else{
         <div class="text-center ">
         <h1 class="welcome-text text-light m-4">Welcome to the <br> @Model.Quiz.QuizName</h1>
@@ -132,7 +132,7 @@
             <button  type="submit" class="btn btn-dark col-6">Submit</button>
         </form>
     
-        <partial name="_ScoreboardPartial" />
+        @*<partial name="_ScoreboardPartial" />*@
     }
 
 }else{

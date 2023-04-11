@@ -24,7 +24,6 @@ namespace QuizForge.Models.QuizModels
         [AllowNull]
         public string? QuestionImage { get; set; } = string.Empty;
 
-#warning Change name to the QuestionType!
         private QuestionType questionType { get; set; }
             
         public QuestionType QuestionType { get {return questionType;}
