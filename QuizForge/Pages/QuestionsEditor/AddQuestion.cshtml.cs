@@ -133,7 +133,6 @@ namespace QuizForge.Pages.QuizzesEditor
             {
                 int points = (int)(_context.QuizQuestions.Where(q => q.QuizId == changedQuiz.Id).Sum(question => question.QuestionPoints));
                 changedQuiz.QuizPoints = points;
-                Console.WriteLine("-----------------" + points);
                 await _context.SaveChangesAsync();
             }
 

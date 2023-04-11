@@ -44,7 +44,7 @@ namespace QuizForge.Controllers
 
         [HttpPost] public IActionResult IndexPost(int id = -1)
         {
-            if (!(SignInManager.IsSignedIn(User) && User?.Identity?.Name == "holo@gmail.com"))
+            if (!(SignInManager.IsSignedIn(User) && User?.Identity?.Name == adminEmail))
                 return Forbid("User is not authorized or doesn't have enough permissions");
             try
             {

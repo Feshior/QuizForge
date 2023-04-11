@@ -7,6 +7,7 @@ namespace QuizForge.Services
     {
 
         public Task<string[]> UploadImage(IFormFile file, string userEmail);
+        public int DeleteImage(string file);
         string[] getAllowedExtensions();
 
     }
@@ -24,6 +25,30 @@ namespace QuizForge.Services
             this.hostingEnvironment = hostingEnvironment;
             webRootPath = hostingEnvironment.WebRootPath;
             this.logger = logger;
+        }
+
+        public int DeleteImage(string filePath)
+        {
+            //If image located not in default location, then delete it
+            try
+            {
+                if (!filePath.StartsWith("/img/default/"))
+                {
+                    filePath = filePath.TrimStart('/');
+                    filePath = filePath.TrimStart('\\');
+                    string fileToDelete = Path.Combine(webRootPath, $"{filePath}");
+                    if (System.IO.File.Exists(fileToDelete))
+                    {
+                        System.IO.File.Delete(fileToDelete);
+                        return 1;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning($"Exception in DeleteImage - {ex.Message}");
+            }
+            return -1;
         }
 
         public string[] getAllowedExtensions()

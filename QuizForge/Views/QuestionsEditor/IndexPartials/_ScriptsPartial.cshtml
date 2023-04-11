@@ -4,9 +4,9 @@
         updateData();
     });
 
-    let quizId = -1;
+    let questionId = -1;
     function pressed(newId) {
-        quizId = newId;
+        questionId = newId;
     }
 
     function updateData() {
@@ -72,6 +72,36 @@
         }
     }
     
+    function deleteQuestion(){
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("DeleteQuestion", "QuestionsApi")",
+            data: {
+                id: questionId,
+            },
+            success: function (result) {
+                $('#removeQuestionModel').modal('hide');
+                showSuccessModal(result);
+                setTimeout(updateData(), 200);
+            },
+            error: function (result) {
+                $('#removeQuestionModel').modal('hide');
+                console.log(result);
+                showErrorModal(result.responseText);
+            }
+        });
+    }
 
+    function showErrorModal(text) {
+        $('#errorModalText > div').remove();
+        $('#errorModalText').append('<div>' + text + '</div>');
+        $('#errorModal').modal('show');
+    }
+
+    function showSuccessModal(text) {
+        $('#successModalText > div').remove();
+        $('#successModalText').append('<div>' + text + '</div>');
+        $('#successModal').modal('show');
+    }
     
 </script>
